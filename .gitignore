@@ -6,3 +6,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+public/brand/brand-guide.png
+public/brand/variation-board.png

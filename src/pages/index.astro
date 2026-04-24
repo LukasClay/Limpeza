@@ -1,13 +1,28 @@
 ---
 import "../styles/global.css";
 
+const brand = {
+  name: "ALL PRO Cleaning Services",
+  shortName: "ALL PRO",
+  tagline: "Not just clean. ALL PRO clean.",
+  statement: "Clean spaces. Better living.",
+  phoneDisplay: "(617) 955-4047",
+  phoneHref: "tel:+16179554047",
+  email: "allprocleaninginc1@gmail.com",
+  instagram: "@allprocleaninginc1",
+  instagramHref: "https://www.instagram.com/allprocleaninginc1",
+  area: "Serving Massachusetts",
+  logo: "/brand/logo-primary.png",
+  board: "/brand/variation-board.png",
+};
+
 const services = [
-  { icon: "sparkles", title: "Weekly" },
-  { icon: "refresh", title: "Bi-weekly" },
-  { icon: "calendar", title: "Monthly" },
-  { icon: "key", title: "Move in/out" },
-  { icon: "hammer", title: "Post Construction" },
-  { icon: "building", title: "Commercial" },
+  { icon: "sparkles", title: "Weekly", label: "Weekly Cleaning" },
+  { icon: "refresh", title: "Bi-weekly", label: "Bi-weekly Cleaning" },
+  { icon: "calendar", title: "Monthly", label: "Monthly Cleaning" },
+  { icon: "key", title: "Move in", label: "Move In" },
+  { icon: "home", title: "Move out", label: "Move Out" },
+  { icon: "building", title: "Post Construction", label: "Post Construction" },
 ] as const;
 
 const iconPaths = {
@@ -32,11 +47,10 @@ const iconPaths = {
     "M15 7a4 4 0 1 1 2.8 6.8L14 17.6V21h-4v-3H7v-4h3.4l3.8-3.8A4 4 0 0 1 15 7z",
     "M18 7h.01",
   ],
-  hammer: [
-    "M14 4l6 6",
-    "M13 5l2-2 6 6-2 2",
-    "M3 21l8-8",
-    "M12 12l-2-2 3-3 4 4-3 3-2-2z",
+  home: [
+    "M3 11l9-8 9 8",
+    "M5 10v10h14V10",
+    "M9 20v-6h6v6",
   ],
   building: [
     "M4 21V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v16",
@@ -51,22 +65,23 @@ const iconPaths = {
   ],
 } as const;
 
-const trustItems = ["Fully Insured", "Trusted", "Reliable", "Professional"];
+const trustItems = [
+  { title: "Fully Insured", text: "Proof of confidence" },
+  { title: "Trusted Professionals", text: "A team you can count on" },
+  { title: "Reliable", text: "Always on time" },
+  { title: "Thorough", text: "Attention to detail" },
+] as const;
 
 const reviews = [
   {
-    text: "The team was on time, detailed, and left the whole place feeling brand new.",
-    name: "Maria S.",
+    text: "They were professional, careful, and the house looked spotless.",
+    name: "Residential client",
   },
   {
-    text: "Easy estimate, great communication, and a spotless office before opening.",
-    name: "Daniel R.",
+    text: "Clear communication, fair estimate, and reliable service for our space.",
+    name: "Commercial client",
   },
 ];
-
-const phoneDisplay = "(555) 123-4567";
-const phoneHref = "tel:+15551234567";
-const email = "hello@primeclean.com";
 ---
 
 <!doctype html>
@@ -76,27 +91,27 @@ const email = "hello@primeclean.com";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Premium residential and commercial cleaning services with fast estimates and reliable scheduling."
+      content="ALL PRO Cleaning Services offers residential and commercial cleaning in Massachusetts with free estimates and fully insured service."
     />
-    <title>PrimeClean | Residential & Commercial Cleaning</title>
+    <title>{brand.name} | Residential & Commercial Cleaning</title>
   </head>
   <body class="antialiased">
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
-      <div class="section-shell flex h-20 items-center justify-between gap-5">
-        <a href="#home" class="brand text-2xl font-bold text-[#071f36]" aria-label="PrimeClean home">
-          PrimeClean
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-[#dfe8df] bg-white/95 backdrop-blur">
+      <div class="section-shell flex h-20 items-center justify-between gap-4">
+        <a href="#home" class="flex items-center gap-3" aria-label={`${brand.name} home`}>
+          <img src={brand.logo} alt={brand.name} class="h-14 w-auto" width="240" height="220" />
         </a>
 
-        <nav class="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex" aria-label="Primary navigation">
-          <a class="transition hover:text-[#168356]" href="#home">Home</a>
-          <a class="transition hover:text-[#168356]" href="#services">Services</a>
-          <a class="transition hover:text-[#168356]" href="#about">About</a>
-          <a class="transition hover:text-[#168356]" href="#contact">Contact</a>
+        <nav class="hidden items-center gap-8 text-sm font-bold text-[#1e2f5a] md:flex" aria-label="Primary navigation">
+          <a class="transition hover:text-[#4f913f]" href="#home">Home</a>
+          <a class="transition hover:text-[#4f913f]" href="#services">Services</a>
+          <a class="transition hover:text-[#4f913f]" href="#about">About</a>
+          <a class="transition hover:text-[#4f913f]" href="#contact">Contact</a>
         </nav>
 
         <a
-          href={phoneHref}
-          class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#23b26d] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-[#168356]"
+          href={brand.phoneHref}
+          class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#6baf5b] px-4 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#4f913f]"
         >
           CALL NOW
         </a>
@@ -104,29 +119,33 @@ const email = "hello@primeclean.com";
     </header>
 
     <main id="home" class="pt-20">
-      <section class="bg-[#071f36] text-white">
-        <div class="section-shell grid min-h-[calc(100svh-80px)] items-center gap-12 py-16 md:grid-cols-[1.02fr_0.98fr] md:py-20">
+      <section class="relative overflow-hidden bg-[#1e2f5a] text-white">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(107,175,91,0.25),transparent_28%),linear-gradient(135deg,#1e2f5a_0%,#0f1f3d_60%,#08172e_100%)]"></div>
+        <div class="section-shell relative grid min-h-[calc(100svh-80px)] items-center gap-12 py-14 md:grid-cols-[0.96fr_1.04fr] md:py-18">
           <div class="max-w-2xl">
-            <p class="mb-5 inline-flex rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-emerald-100 ring-1 ring-white/15">
-              Residential & commercial cleaning
+            <p class="mb-5 inline-flex rounded-md bg-white/10 px-3 py-2 text-sm font-bold uppercase tracking-[0.14em] text-[#d8ead3] ring-1 ring-white/15">
+              Residential & Commercial
             </p>
             <h1 class="text-5xl font-bold leading-tight md:text-6xl">
-              A cleaner space, without the stress.
+              A clean space. A better place.
             </h1>
-            <p class="mt-6 max-w-xl text-lg leading-8 text-slate-200">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Reliable cleaning for homes,
-              offices, move-outs, and post-construction spaces.
+            <p class="mt-6 max-w-xl text-xl font-semibold italic leading-8 text-[#d8ead3]">
+              {brand.tagline}
+            </p>
+            <p class="mt-4 max-w-xl text-lg leading-8 text-slate-100">
+              Premium accessible cleaning for homes, offices, move-ins, move-outs, and
+              post-construction spaces across Massachusetts.
             </p>
             <div class="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href={phoneHref}
-                class="inline-flex min-h-12 items-center justify-center rounded-md bg-[#23b26d] px-6 text-base font-bold text-white transition hover:bg-[#168356]"
+                href={brand.phoneHref}
+                class="inline-flex min-h-12 items-center justify-center rounded-md bg-[#6baf5b] px-6 text-base font-extrabold text-white transition hover:bg-[#4f913f]"
               >
-                CALL NOW
+                CALL {brand.phoneDisplay}
               </a>
               <a
                 href="#contact"
-                class="inline-flex min-h-12 items-center justify-center rounded-md border border-white/30 px-6 text-base font-bold text-white transition hover:bg-white hover:text-[#071f36]"
+                class="inline-flex min-h-12 items-center justify-center rounded-md border border-white/30 px-6 text-base font-extrabold text-white transition hover:bg-white hover:text-[#1e2f5a]"
               >
                 GET FREE ESTIMATE
               </a>
@@ -134,31 +153,39 @@ const email = "hello@primeclean.com";
           </div>
 
           <div class="relative">
-            <img
-              src="/hero-cleaning.png"
-              alt="Spotless modern interior after a professional cleaning service"
-              class="hero-shadow aspect-[4/3] w-full rounded-lg object-cover"
-              loading="eager"
-              width="1536"
-              height="1024"
-            />
-            <div class="absolute bottom-4 left-4 rounded-md bg-white px-4 py-3 text-[#071f36] shadow-xl">
-              <p class="text-sm font-bold">Same-week estimates</p>
-              <p class="text-xs text-slate-600">Homes, offices, and turnovers</p>
+            <div class="hero-shadow rounded-lg bg-white p-6 md:p-8">
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                class="mx-auto max-h-[360px] w-full object-contain"
+                loading="eager"
+                width="1080"
+                height="1180"
+              />
+              <div class="mt-6 rounded-md bg-[#6baf5b] px-4 py-3 text-center text-lg font-bold italic text-white">
+                Residential & Commercial
+              </div>
+            </div>
+            <div class="absolute -bottom-5 left-4 right-4 rounded-md bg-[#0f1f3d] px-5 py-4 shadow-xl ring-1 ring-white/10 sm:left-auto sm:right-6 sm:w-72">
+              <p class="text-sm font-extrabold text-[#d8ead3]">Free estimates</p>
+              <p class="mt-1 text-sm text-white">{brand.phoneDisplay} | Fully insured</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section aria-label="Trust badges" class="border-b border-slate-200 bg-white">
+      <section aria-label="Trust badges" class="border-b border-[#dfe8df] bg-white">
         <div class="section-shell grid grid-cols-2 gap-4 py-6 md:grid-cols-4">
           {
             trustItems.map((item) => (
-              <div class="flex items-center gap-3 text-sm font-bold text-[#071f36]">
-                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[#168356]">
+              <div class="flex items-start gap-3 text-sm text-[#1e2f5a]">
+                <span class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[#ecf2ed] text-[#4f913f]">
                   ✓
                 </span>
-                <span>{item}</span>
+                <span>
+                  <strong class="block">{item.title}</strong>
+                  <span class="text-slate-500">{item.text}</span>
+                </span>
               </div>
             ))
           }
@@ -168,15 +195,15 @@ const email = "hello@primeclean.com";
       <section id="services" class="bg-white py-20 md:py-24">
         <div class="section-shell">
           <div class="max-w-2xl">
-            <p class="text-sm font-bold uppercase text-[#168356]">Services</p>
-            <h2 class="mt-3 text-4xl font-bold text-[#071f36] md:text-5xl">Simple, reliable cleaning plans.</h2>
+            <p class="text-sm font-extrabold uppercase text-[#4f913f]">Our Services</p>
+            <h2 class="mt-3 text-4xl font-bold text-[#1e2f5a] md:text-5xl">Professional cleaning made simple.</h2>
           </div>
 
           <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {
               services.map((service) => (
-                <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-                  <div class="mb-5 flex size-12 items-center justify-center rounded-md bg-[#071f36] text-white">
+                <article class="rounded-lg border border-[#dfe8df] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+                  <div class="mb-5 flex size-12 items-center justify-center rounded-full bg-[#6baf5b] text-white">
                     <svg
                       aria-hidden="true"
                       viewBox="0 0 24 24"
@@ -190,7 +217,7 @@ const email = "hello@primeclean.com";
                       {iconPaths[service.icon].map((path) => <path d={path} />)}
                     </svg>
                   </div>
-                  <h3 class="text-2xl font-bold text-[#071f36]">{service.title}</h3>
+                  <h3 class="text-2xl font-bold text-[#1e2f5a]">{service.title}</h3>
                 </article>
               ))
             }
@@ -198,29 +225,29 @@ const email = "hello@primeclean.com";
         </div>
       </section>
 
-      <section class="bg-[#f5f8fb] py-16">
+      <section class="bg-[#ecf2ed] py-16">
         <div class="section-shell">
-          <p class="mx-auto max-w-4xl text-center text-4xl font-bold leading-tight text-[#071f36] md:text-5xl">
-            Walk into a space that already feels taken care of.
+          <p class="mx-auto max-w-4xl text-center text-4xl font-bold leading-tight text-[#1e2f5a] md:text-5xl">
+            {brand.statement}
           </p>
         </div>
       </section>
 
-      <section id="contact" class="bg-[#071f36] py-20 text-white md:py-24">
+      <section id="contact" class="bg-[#1e2f5a] py-20 text-white md:py-24">
         <div class="section-shell grid gap-12 lg:grid-cols-[0.82fr_1.18fr]">
           <div>
-            <p class="text-sm font-bold uppercase text-emerald-200">Get started</p>
-            <h2 class="mt-3 text-4xl font-bold md:text-5xl">Get your free estimate today.</h2>
-            <p class="mt-5 text-lg leading-8 text-slate-200">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tell us what you need and
-              we will follow up quickly.
+            <p class="text-sm font-extrabold uppercase text-[#d8ead3]">Free estimates</p>
+            <h2 class="mt-3 text-4xl font-bold md:text-5xl">Ready for an ALL PRO clean?</h2>
+            <p class="mt-5 text-lg leading-8 text-slate-100">
+              Tell us what you need and we will follow up quickly with a clear estimate for your
+              home or commercial space.
             </p>
-            <a
-              href={phoneHref}
-              class="mt-8 inline-flex min-h-12 items-center justify-center rounded-md bg-[#23b26d] px-6 text-base font-bold text-white transition hover:bg-[#168356]"
-            >
-              CALL NOW
-            </a>
+            <div class="mt-8 grid gap-3 text-base text-slate-100">
+              <a class="font-bold text-white hover:text-[#d8ead3]" href={brand.phoneHref}>{brand.phoneDisplay}</a>
+              <a class="font-bold text-white hover:text-[#d8ead3]" href={`mailto:${brand.email}`}>{brand.email}</a>
+              <a class="font-bold text-white hover:text-[#d8ead3]" href={brand.instagramHref}>{brand.instagram}</a>
+              <p>{brand.area}</p>
+            </div>
           </div>
 
           <form class="grid gap-4 rounded-lg bg-white p-5 text-[#102132] shadow-2xl md:grid-cols-2 md:p-8">
@@ -239,12 +266,7 @@ const email = "hello@primeclean.com";
             <label class="grid gap-2 text-sm font-bold">
               Service
               <select class="min-h-12 rounded-md border border-slate-300 px-4 font-normal" name="service">
-                <option>Weekly</option>
-                <option>Bi-weekly</option>
-                <option>Monthly</option>
-                <option>Move in/out</option>
-                <option>Post Construction</option>
-                <option>Commercial</option>
+                {services.map((service) => <option>{service.label}</option>)}
               </select>
             </label>
             <label class="grid gap-2 text-sm font-bold md:col-span-2">
@@ -253,7 +275,7 @@ const email = "hello@primeclean.com";
             </label>
             <button
               type="submit"
-              class="min-h-12 rounded-md bg-[#23b26d] px-6 text-base font-bold text-white transition hover:bg-[#168356] md:col-span-2"
+              class="min-h-12 rounded-md bg-[#6baf5b] px-6 text-base font-extrabold text-white transition hover:bg-[#4f913f] md:col-span-2"
             >
               GET FREE ESTIMATE
             </button>
@@ -263,29 +285,30 @@ const email = "hello@primeclean.com";
 
       <section id="about" class="bg-white py-20 md:py-24">
         <div class="section-shell grid gap-8 md:grid-cols-[0.72fr_1fr] md:items-center">
-          <p class="text-sm font-bold uppercase text-[#168356]">About</p>
+          <p class="text-sm font-extrabold uppercase text-[#4f913f]">About</p>
           <div>
-            <h2 class="text-4xl font-bold text-[#071f36] md:text-5xl">Clean work. Clear communication.</h2>
+            <h2 class="text-4xl font-bold text-[#1e2f5a] md:text-5xl">Premium accessible cleaning.</h2>
             <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Our team focuses on reliable
-              schedules, careful details, and spaces that feel ready to use.
+              ALL PRO Cleaning Services brings a consistent, professional visual standard to the
+              way we clean: clear communication, careful details, and spaces that feel ready to live
+              or work in.
             </p>
           </div>
         </div>
       </section>
 
-      <section class="bg-[#f5f8fb] py-20 md:py-24" aria-labelledby="reviews-title">
+      <section class="bg-[#ecf2ed] py-20 md:py-24" aria-labelledby="reviews-title">
         <div class="section-shell">
           <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <p class="text-sm font-bold uppercase text-[#168356]">Reviews</p>
-              <h2 id="reviews-title" class="mt-3 text-4xl font-bold text-[#071f36] md:text-5xl">
-                What clients say.
+              <p class="text-sm font-extrabold uppercase text-[#4f913f]">Reviews</p>
+              <h2 id="reviews-title" class="mt-3 text-4xl font-bold text-[#1e2f5a] md:text-5xl">
+                Quality you can count on.
               </h2>
             </div>
             <a
               href="#contact"
-              class="inline-flex min-h-12 items-center justify-center rounded-md bg-[#071f36] px-6 text-base font-bold text-white transition hover:bg-[#103452]"
+              class="inline-flex min-h-12 items-center justify-center rounded-md bg-[#1e2f5a] px-6 text-base font-extrabold text-white transition hover:bg-[#0f1f3d]"
             >
               GET FREE ESTIMATE
             </a>
@@ -294,9 +317,9 @@ const email = "hello@primeclean.com";
           <div class="mt-10 grid gap-4 md:grid-cols-2">
             {
               reviews.map((review) => (
-                <article class="rounded-lg bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <article class="rounded-lg bg-white p-6 shadow-sm ring-1 ring-[#dfe8df]">
                   <p class="text-lg leading-8 text-slate-700">&ldquo;{review.text}&rdquo;</p>
-                  <p class="mt-5 font-bold text-[#071f36]">{review.name}</p>
+                  <p class="mt-5 font-bold text-[#1e2f5a]">{review.name}</p>
                 </article>
               ))
             }
@@ -305,27 +328,25 @@ const email = "hello@primeclean.com";
       </section>
     </main>
 
-    <footer class="bg-[#071f36] pb-24 pt-12 text-white md:pb-12">
-      <div class="section-shell grid gap-8 md:grid-cols-[1fr_1.5fr]">
+    <footer class="bg-[#1e2f5a] pb-24 pt-12 text-white md:pb-12">
+      <div class="section-shell grid gap-8 md:grid-cols-[0.75fr_1.5fr]">
         <div>
-          <p class="brand text-3xl font-bold">PrimeClean</p>
-          <p class="mt-4 max-w-sm text-sm leading-6 text-slate-300">
-            Residential and commercial cleaning for busy homes, offices, and fresh starts.
-          </p>
+          <img src={brand.logo} alt={brand.name} class="max-h-28 w-auto rounded-md bg-white p-3" width="240" height="220" />
+          <p class="mt-4 max-w-sm text-sm leading-6 text-slate-300">{brand.tagline}</p>
         </div>
         <div class="grid gap-4 text-sm text-slate-200 sm:grid-cols-2">
-          <p><span class="font-bold text-white">Phone:</span> {phoneDisplay}</p>
-          <p><span class="font-bold text-white">Email:</span> {email}</p>
-          <p><span class="font-bold text-white">Instagram:</span> @primeclean</p>
-          <p><span class="font-bold text-white">Service area:</span> Your city and nearby areas</p>
+          <p><span class="font-bold text-white">Phone:</span> {brand.phoneDisplay}</p>
+          <p><span class="font-bold text-white">Email:</span> {brand.email}</p>
+          <p><span class="font-bold text-white">Instagram:</span> {brand.instagram}</p>
+          <p><span class="font-bold text-white">Service area:</span> Massachusetts</p>
         </div>
       </div>
     </footer>
 
     <a
-      href={phoneHref}
-      class="fixed inset-x-4 bottom-4 z-50 flex min-h-14 items-center justify-center rounded-md bg-[#23b26d] text-base font-bold text-white shadow-2xl md:hidden"
-      aria-label="Call PrimeClean now"
+      href={brand.phoneHref}
+      class="fixed inset-x-4 bottom-4 z-50 flex min-h-14 items-center justify-center rounded-md bg-[#6baf5b] text-base font-extrabold text-white shadow-2xl md:hidden"
+      aria-label={`Call ${brand.name} now`}
     >
       CALL NOW
     </a>
