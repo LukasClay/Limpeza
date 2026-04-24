@@ -6,7 +6,7 @@
   --green: #6baf5b;
   --green-dark: #4f913f;
   --white: #ffffff;
-  --mist: #ecf2ed;
+  --mist: #f6f8f6;
   --ink: #102132;
 }
 
@@ -28,6 +28,7 @@ h2,
 h3,
 .brand {
   font-family: Cinzel, "Trajan Pro", Georgia, "Times New Roman", serif;
+  letter-spacing: 0;
 }
 
 * {
@@ -54,4 +55,77 @@ textarea {
 
 .hero-shadow {
   box-shadow: 0 28px 70px rgba(7, 31, 54, 0.18);
+}
+
+.eyebrow {
+  color: var(--green-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.field {
+  min-height: 3.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  padding-inline: 1rem;
+  font-weight: 400;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.field:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px rgba(107, 175, 91, 0.16);
+  outline: none;
+}
+
+.mobile-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.reveal {
+  animation: fade-up 620ms ease both;
+}
+
+.service-card:nth-child(2),
+.reveal:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.service-card:nth-child(3),
+.reveal:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
