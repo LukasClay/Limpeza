@@ -24,18 +24,21 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [ ] (Recomendado) Configurar respostas rapidas para perguntas comuns
 
 ### Dominio e hospedagem
-- [ ] Confirmar dominio definitivo (atualmente o codigo usa `https://allprocleaning.com` em `SITE_URL`, `og:url`, JSON-LD, robots.txt)
-- [ ] Se mudar de dominio, atualizar `SITE_URL` em `src/pages/index.astro` e a `Sitemap:` em `public/robots.txt`
+- [ ] Confirmar dominio definitivo (atualmente o codigo usa `https://allprocleaning.com` em `SITE_URL`, `og:url`, JSON-LD, robots.txt, astro.config)
+- [ ] Se mudar de dominio, atualizar:
+  - `SITE_URL` em `src/data/brand.ts`
+  - `site` em `astro.config.mjs`
+  - `Sitemap:` em `public/robots.txt`
 - [ ] Configurar DNS apontando para Railway
 - [ ] Habilitar HTTPS (Railway faz automatico)
 - [ ] Verificar dominio no Google Search Console
-- [ ] Submeter sitemap no Search Console
+- [ ] Submeter sitemap no Search Console (`/sitemap-index.xml` agora funciona)
 
 ### Conteudo e prova social
 - [ ] Coletar 3-5 reviews reais (Google/Facebook/Instagram) com nome, cidade e texto
 - [ ] Pedir autorizacao por escrito para usar o nome do cliente no site
 - [ ] Tirar 6-10 fotos antes/depois reais (mesmo angulo, boa luz, sem identificar a casa do cliente)
-- [ ] Listar cidades realmente atendidas em MA (atualmente o site so diz "Massachusetts")
+- [ ] **Revisar lista de cidades atendidas** em `src/data/site.ts` (campo `serviceCities`) — atualmente lista as 16 maiores de MA como placeholder
 - [ ] Confirmar se a empresa oferece **garantia explicita** (ex.: "re-clean gratis se nao gostar em 24h")
 - [ ] Confirmar dados de prova social: anos no mercado, n. de clientes, n. de funcionarios
 
@@ -48,14 +51,16 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 
 ### Identidade visual
 - [ ] Gerar `apple-touch-icon.png` (180x180) — atualmente so existe `favicon.svg`
-- [ ] Gerar `og-image.jpg` dedicado (1200x630) — atualmente reaproveita `hero-cleaning.png`
+- [ ] Gerar `og-image.jpg` dedicado (1200x630, ~150KB) — atualmente reaproveita `hero-cleaning.png` (1.4MB, pesado para preview)
 - [ ] Logo em SVG transparente (atualmente usa PNG com `mix-blend-multiply` no header — fragil)
 
 ### Legal
-- [ ] Aprovar texto da Politica de Privacidade (quando for criada)
+- [x] **Politica de Privacidade** boilerplate em `/privacy` (2026-04-25)
+- [ ] **Aprovar/revisar** o texto da Politica de Privacidade ja publicado em `src/pages/privacy.astro`
 - [ ] (Opcional) Termos de Servico
 - [ ] Confirmar se a empresa tem **LLC ou Inc.** registrada (impacta o copy "fully insured")
 - [ ] Confirmar tipo de seguro real (general liability? bonded?)
+- [ ] Atualizar `lastUpdated` em `src/pages/privacy.astro` quando alterar a politica
 
 ---
 
@@ -75,46 +80,39 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 ## 3. Divida tecnica do codigo
 
 ### Arquitetura
-- [ ] Quebrar `src/pages/index.astro` (740+ linhas) em componentes:
+- [x] Quebrar `src/pages/index.astro` em componentes (2026-04-25):
   - `src/components/layout/Header.astro`
   - `src/components/layout/Footer.astro`
   - `src/components/sections/Hero.astro`
   - `src/components/sections/TrustBar.astro`
   - `src/components/sections/Services.astro`
+  - `src/components/sections/Statement.astro`
   - `src/components/sections/About.astro`
   - `src/components/sections/WhyUs.astro`
+  - `src/components/sections/ServiceArea.astro`
+  - `src/components/sections/Faq.astro`
   - `src/components/sections/Contact.astro`
   - `src/components/ui/MobileCTA.astro`
   - `src/components/ui/Icon.astro`
-- [ ] Mover `iconPaths` para `src/lib/icons.ts`
-- [ ] Mover dados (`services`, `serviceOptions`, `trustBar`, etc.) para `src/data/`
-- [ ] Mover helpers WhatsApp para `src/lib/whatsapp.ts`
+  - `src/layouts/BaseLayout.astro`
+- [x] Mover `iconPaths` para `src/lib/icons.ts` (com tipo `IconName`)
+- [x] Mover dados (`services`, `serviceOptions`, `trustBar`, etc.) para `src/data/site.ts`
+- [x] Mover `brand` + `SITE_URL` para `src/data/brand.ts`
+- [x] Mover helpers WhatsApp para `src/lib/whatsapp.ts`
 
 ### Tailwind v4
-- [ ] Migrar cores para `@theme` em `global.css`:
-  ```css
-  @theme {
-    --color-navy: #0B1F33;
-    --color-navy-soft: #07172A;
-    --color-green: #2E7D32;
-    --color-green-dark: #256628;
-    --color-green-accent: #2EB872;
-    --color-whatsapp: #25D366;
-    --color-mist: #F4F7F8;
-    --color-muted: #5F6B73;
-  }
-  ```
-- [ ] Substituir todas as ocorrencias de hex literais (`#0B1F33`, etc.) por classes nomeadas (`bg-navy`, `text-green`)
-- [ ] Eliminar duplicacao com `:root` CSS vars
+- [x] Migrar cores para `@theme` em `global.css` (2026-04-25)
+- [x] Substituir hex literais (`#0B1F33`, etc.) por classes nomeadas (`bg-navy`, `text-green`)
+- [x] Eliminar duplicacao com `:root` CSS vars
 
 ### UX / animacao
-- [ ] `IntersectionObserver` para classe `.reveal` (atualmente dispara no load — quebra o efeito quando o usuario rola)
-- [ ] Stagger correto para todos os cards (atualmente so funciona pros 3 primeiros)
-- [ ] `scroll-padding-top` proporcional ao header (`clamp(72px, 12vh, 88px)` em vez de `88px` fixo)
-- [ ] `hover:` so dispara em dispositivos hover-capable: envolver com `@media (hover:hover)` para nao travar no mobile
+- [x] `IntersectionObserver` para classe `.reveal` (2026-04-25) — script no `BaseLayout`
+- [x] Stagger correto via `--reveal-delay` por elemento
+- [x] `scroll-padding-top` proporcional ao header (`var(--header-h)` / `var(--header-h-md)`)
+- [x] Classe `.hover-lift` neutralizada via `@media (hover: none)` no mobile
 
 ### Mobile / acessibilidade
-- [ ] Mobile menu (`<details>`) auto-fechar:
+- [x] Mobile menu (`<details>`) auto-fechar (2026-04-25):
   - Ao clicar num link
   - Ao tocar fora
   - Ao pressionar Escape
@@ -124,28 +122,30 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [ ] Testar navegacao so com teclado
 
 ### SEO / paginas
-- [ ] Pagina 404 customizada (`src/pages/404.astro`)
-- [ ] Pagina de privacidade (`src/pages/privacy.astro`) linkada do formulario
+- [x] Pagina 404 customizada (`src/pages/404.astro`) (2026-04-25)
+- [x] Pagina de privacidade (`src/pages/privacy.astro`) linkada do formulario e footer
 - [ ] (Opcional) Termos de servico (`src/pages/terms.astro`)
-- [ ] Instalar `@astrojs/sitemap` — gera sitemap.xml automaticamente
+- [x] Instalar `@astrojs/sitemap` — gera `sitemap-index.xml` automaticamente (2026-04-25)
 - [ ] Adicionar JSON-LD `BreadcrumbList` quando houver mais paginas
 - [ ] (Opcional) `<link rel="alternate" hreflang>` se virar bilingue
 
 ### Performance
-- [ ] Migrar imagens para `astro:assets` (`<Image>` ou `<Picture>`) — gera AVIF/WebP automaticamente
+- [x] Migrar imagens para `astro:assets` (`<Picture>`) — gera AVIF/WebP automaticamente (2026-04-25)
 - [ ] Self-host fontes Cinzel/Montserrat em `/public/fonts/` (elimina request ao Google Fonts)
 - [ ] Pre-carregar (`<link rel="preload">`) a fonte usada no H1
-- [ ] Comprimir `hero-cleaning.png` (atualmente PNG, ideal e WebP/AVIF)
+- [ ] Comprimir `hero-cleaning.png` na fonte (atualmente PNG 1.4MB; o `<Picture>` ja serve AVIF/WebP otimizados, mas a origem ainda e pesada)
 - [ ] Adicionar `loading="lazy"` em todas as imagens fora do fold (ja tem em algumas)
 - [ ] Audit Lighthouse: alvo 95+ em todas as categorias
+- [ ] Cache do `<Picture>` em SSR Node — primeira request gera, depois serve cache. Avaliar usar CDN (Cloudflare na frente do Railway)
 
 ### Seguranca
-- [ ] `src/middleware.ts` com headers basicos:
+- [x] `src/middleware.ts` com headers basicos (2026-04-25):
   - `X-Content-Type-Options: nosniff`
-  - `Referrer-Policy: strict-origin-when-cross-origin`
   - `X-Frame-Options: DENY`
-  - `Permissions-Policy: geolocation=(), camera=(), microphone=()`
-  - CSP minima
+  - `Referrer-Policy: strict-origin-when-cross-origin`
+  - `Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()`
+  - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+- [ ] Adicionar `Content-Security-Policy` no middleware (precisa mapear todos os origins de fontes/scripts)
 - [ ] Rate-limit do `/api/quote` hoje e em memoria (perdido em restart). Migrar para Redis/Upstash se volume crescer
 - [ ] Adicionar reCAPTCHA v3 (invisivel) ou Cloudflare Turnstile no formulario (alem do honeypot atual)
 - [ ] Testar com `securityheaders.com` apos deploy
@@ -164,19 +164,10 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [ ] **Beneficios** — secao com 4-6 cards (insured, trained team, eco products, free estimate, satisfaction guarantee, bilingual service)
 - [ ] **Como Funciona** — virar secao propria com 4 passos visuais grandes (hoje esta inline no contato)
 - [ ] **Antes / Depois** — galeria com slider ou grid (precisa fotos reais)
-- [ ] **FAQ** — 8-10 perguntas comuns:
-  - Vocs trazem os produtos de limpeza?
-  - Quanto tempo dura uma limpeza?
-  - E seguro deixar a equipe na minha casa?
-  - Como funciona o pagamento?
-  - Posso cancelar ou remarcar?
-  - Atendem area X?
-  - Tenho pets, ha algum cuidado?
-  - O que esta incluso na limpeza padrao?
-  - Como sao calculados os precos?
-  - Vocs oferecem produtos eco-friendly?
+- [x] **FAQ** — 9 perguntas comuns em `src/data/site.ts` (`faqItems`) — generico, revisar (2026-04-25)
 - [ ] **Garantia 100% Satisfacao** — selo visual + texto curto (depende de confirmacao do dono)
-- [ ] **Area de Atendimento** — lista de cidades + (opcional) mapa
+- [x] **Area de Atendimento** — secao com lista de cidades (2026-04-25). Falta confirmar lista real
+- [ ] (Opcional) Mapa interativo na secao Area de Atendimento
 - [ ] **Reviews reais** — substituir os trust cards atuais quando reviews chegarem
 - [ ] **CTA final reforcado** — antes do footer, com 3 canais (WhatsApp, Call, Form) e prazo ("respondemos em 1h")
 
@@ -208,10 +199,20 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 
 ## 6. Decisoes ja tomadas (para historico)
 
-- **Stack:** Astro 5 + Tailwind v4 + TypeScript strict + Node adapter (Railway)
+- **Stack:** Astro 5 + Tailwind v4 + TypeScript strict + Node adapter (Railway) + `@astrojs/sitemap`
 - **Idioma:** EN apenas (decisao do dono, 2026-04-25)
 - **Fluxo de leads:** Form -> Resend (email com Reply-To) + botao "Continue on WhatsApp" no estado de sucesso. WhatsApp tambem como CTA direto em 5 lugares
 - **Anti-spam:** honeypot + rate-limit 30s/IP + validacao server-side + checkbox de consentimento
-- **Paleta:** navy `#0B1F33`, navy-soft `#07172A`, green `#2E7D32`, green-dark `#256628`, green-accent `#2EB872`, whatsapp `#25D366`, mist `#F4F7F8`, muted `#5F6B73`
+- **Paleta:** navy `#0B1F33`, navy-soft `#07172A`, green `#2E7D32`, green-dark `#256628`, green-accent `#2EB872`, whatsapp `#25D366`, mist `#F4F7F8`, muted `#5F6B73`. Disponiveis como tokens Tailwind v4 (`bg-navy`, `text-green`, etc.)
 - **Tipografia:** Cinzel (titulos) + Montserrat (corpo) — Google Fonts CDN por enquanto
-- **Hover dos botoes verdes:** escurece (`hover:bg-[#256628]`) — convencao
+- **Hover dos botoes verdes:** escurece (`hover:bg-green-dark`) — convencao
+- **Estrutura de pastas:**
+  - `src/data/` — dados estaticos (brand, services, FAQ, cities)
+  - `src/lib/` — helpers (icons, whatsapp)
+  - `src/components/layout/` — Header, Footer
+  - `src/components/sections/` — secoes da home
+  - `src/components/ui/` — Icon, MobileCTA
+  - `src/layouts/` — BaseLayout (head + IntersectionObserver)
+  - `src/pages/` — index, 404, privacy, api/quote
+  - `src/middleware.ts` — security headers
+- **Imagens:** `<Picture>` do `astro:assets` em hero e about; AVIF + WebP gerados em runtime SSR
