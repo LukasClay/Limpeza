@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 
+const SITE_URL = "https://allprocleaning.com";
+
 const brand = {
   name: "ALL PRO Cleaning Services",
   shortName: "ALL PRO",
@@ -8,6 +10,7 @@ const brand = {
   statement: "Clean spaces. Better living.",
   phoneDisplay: "(617) 955-4047",
   phoneHref: "tel:+16179554047",
+  whatsappNumber: "16179554047",
   email: "allprocleaninginc1@gmail.com",
   instagram: "@allprocleaninginc1",
   instagramHref: "https://www.instagram.com/allprocleaninginc1",
@@ -16,10 +19,21 @@ const brand = {
   heroImage: "/hero-cleaning.png",
 };
 
+const buildWhatsappUrl = (message: string) =>
+  `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+const whatsappMessages = {
+  default: "Hi! I'd like a free cleaning estimate.",
+  residential: "Hi! I'd like a free estimate for residential cleaning.",
+  commercial: "Hi! I'd like a free estimate for commercial cleaning.",
+};
+
+const whatsappDefaultUrl = buildWhatsappUrl(whatsappMessages.default);
+
 const navItems = [
   { label: "Services", href: "#services" },
   { label: "About", href: "#about" },
-  { label: "Reviews", href: "#reviews" },
+  { label: "Why Us", href: "#why-us" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
@@ -99,6 +113,15 @@ const iconPaths = {
   phone: ["M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.5 3a2 2 0 0 1-.6 1.8L7.7 9.8a16 16 0 0 0 6.5 6.5l1.3-1.3a2 2 0 0 1 1.8-.6l3 .5a2 2 0 0 1 1.7 2z"],
   users: ["M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z", "M22 21v-2a4 4 0 0 0-3-3.9", "M16 3.1a4 4 0 0 1 0 7.8"],
   star: ["M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.8l1-6.1-4.4-4.3 6.1-.9L12 3z"],
+  whatsapp: [
+    "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z",
+  ],
+  check: ["M20 6L9 17l-5-5"],
+  mail: [
+    "M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z",
+    "M2 8l10 6 10-6",
+  ],
+  arrowRight: ["M5 12h14", "M12 5l7 7-7 7"],
 } as const;
 
 const localBusinessSchema = {
@@ -107,9 +130,10 @@ const localBusinessSchema = {
   name: brand.name,
   telephone: brand.phoneDisplay,
   email: brand.email,
-  logo: brand.logo,
-  image: brand.heroImage,
-  sameAs: [brand.instagramHref],
+  url: SITE_URL,
+  logo: `${SITE_URL}${brand.logo}`,
+  image: `${SITE_URL}${brand.heroImage}`,
+  sameAs: [brand.instagramHref, `https://wa.me/${brand.whatsappNumber}`],
   areaServed: {
     "@type": "AdministrativeArea",
     name: "Massachusetts",
@@ -124,6 +148,10 @@ const localBusinessSchema = {
   description:
     "Professional residential and commercial cleaning services in Massachusetts. Fully insured, reliable, and available for weekly, bi-weekly, monthly, move-in, move-out, and post-construction cleaning.",
 };
+
+const pageTitle = "ALL PRO Cleaning Services | Residential & Commercial Cleaning in Massachusetts";
+const pageDescription =
+  "Professional residential and commercial cleaning services in Massachusetts. Fully insured, reliable, and available for weekly, bi-weekly, monthly, move-in, move-out, and post-construction cleaning.";
 ---
 
 <!doctype html>
@@ -131,10 +159,22 @@ const localBusinessSchema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Professional residential and commercial cleaning services in Massachusetts. Fully insured, reliable, and available for weekly, bi-weekly, monthly, move-in, move-out, and post-construction cleaning."
-    />
+    <meta name="description" content={pageDescription} />
+    <meta name="theme-color" content="#0B1F33" />
+    <link rel="canonical" href={SITE_URL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={SITE_URL} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={`${SITE_URL}${brand.heroImage}`} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={`${SITE_URL}${brand.heroImage}`} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -142,7 +182,7 @@ const localBusinessSchema = {
       rel="stylesheet"
     />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
-    <title>ALL PRO Cleaning Services | Residential & Commercial Cleaning in Massachusetts</title>
+    <title>{pageTitle}</title>
   </head>
   <body class="antialiased">
     <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-[0_1px_18px_rgba(15,23,42,0.06)] backdrop-blur-xl">
@@ -155,19 +195,31 @@ const localBusinessSchema = {
           {navItems.map((item) => <a class="transition hover:text-[#2E7D32]" href={item.href}>{item.label}</a>)}
         </nav>
 
-        <div class="hidden items-center gap-3 md:flex">
+        <div class="hidden items-center gap-2 md:flex">
           <a
-            class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 px-4 text-sm font-extrabold text-[#0B1F33] transition hover:border-[#2E7D32] hover:text-[#2E7D32]"
+            class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 px-3 text-sm font-extrabold text-[#0B1F33] transition hover:border-[#0B1F33]"
             href={brand.phoneHref}
             aria-label={`Call ${brand.name} at ${brand.phoneDisplay}`}
           >
-            Call Now
+            Call
+          </a>
+          <a
+            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#25D366]/40 bg-[#25D366]/10 px-3 text-sm font-extrabold text-[#0B1F33] transition hover:bg-[#25D366]/20"
+            href={whatsappDefaultUrl}
+            target="_blank"
+            rel="noopener"
+            aria-label="Chat on WhatsApp"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="size-4 text-[#25D366]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              {iconPaths.whatsapp.map((path) => <path d={path} />)}
+            </svg>
+            WhatsApp
           </a>
           <a
             href="#contact"
-            class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#2E7D32] px-5 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(46,125,50,0.24)] transition hover:-translate-y-0.5 hover:bg-[#2EB872]"
+            class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#2E7D32] px-4 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(46,125,50,0.24)] transition hover:-translate-y-0.5 hover:bg-[#256628]"
           >
-            Get Free Estimate
+            Free Estimate
           </a>
         </div>
 
@@ -204,10 +256,21 @@ const localBusinessSchema = {
               Professional cleaning for homes, offices, move-ins, move-outs, and post-construction spaces.
             </p>
 
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <a
+                href={whatsappDefaultUrl}
+                target="_blank"
+                rel="noopener"
+                class="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-md bg-[#25D366] px-5 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(37,211,102,0.32)] transition hover:-translate-y-0.5 hover:bg-[#1ebe57] sm:px-7"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  {iconPaths.whatsapp.map((path) => <path d={path} />)}
+                </svg>
+                WhatsApp
+              </a>
               <a
                 href="#contact"
-                class="inline-flex min-h-[52px] items-center justify-center rounded-md bg-[#2E7D32] px-5 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(46,125,50,0.28)] transition hover:-translate-y-0.5 hover:bg-[#2EB872] sm:px-7"
+                class="inline-flex min-h-[52px] items-center justify-center rounded-md bg-[#2E7D32] px-5 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(46,125,50,0.28)] transition hover:-translate-y-0.5 hover:bg-[#256628] sm:px-7"
               >
                 Get Free Estimate
               </a>
@@ -251,7 +314,7 @@ const localBusinessSchema = {
                   <p class="mt-1 text-base font-bold sm:text-xl">Clean spaces. Better living.</p>
                 </div>
                 <div class="hidden rounded-md bg-[#0B1F33] p-4 text-white shadow-xl ring-1 ring-white/10 sm:block">
-                  <p class="text-3xl font-extrabold">5</p>
+                  <p class="text-3xl font-extrabold">{services.length}</p>
                   <p class="text-xs font-bold uppercase tracking-[0.14em] text-[#d8ead3]">Core services</p>
                 </div>
               </div>
@@ -398,14 +461,14 @@ const localBusinessSchema = {
         </div>
       </section>
 
-      <section id="reviews" class="bg-[#F4F7F8] py-16 md:py-24" aria-labelledby="reviews-title">
+      <section id="why-us" class="bg-[#F4F7F8] py-16 md:py-24" aria-labelledby="why-us-title">
         <div class="section-shell">
           <div class="max-w-3xl">
-            <p class="eyebrow">Trust</p>
-            <h2 id="reviews-title" class="mt-3 text-3xl font-bold leading-tight text-[#0B1F33] sm:text-4xl md:text-5xl">
+            <p class="eyebrow">Why Us</p>
+            <h2 id="why-us-title" class="mt-3 text-3xl font-bold leading-tight text-[#0B1F33] sm:text-4xl md:text-5xl">
               Trusted by local homeowners and businesses.
             </h2>
-            <p class="mt-4 text-lg text-[#5F6B73]">Testimonials coming soon.</p>
+            <p class="mt-4 text-lg text-[#5F6B73]">Built around what clients ask for first.</p>
           </div>
 
           <div class="mt-12 grid gap-4 lg:grid-cols-3">
@@ -427,63 +490,179 @@ const localBusinessSchema = {
       </section>
 
       <section id="contact" class="bg-[#0B1F33] pb-28 pt-16 text-white md:py-24">
-        <div class="section-shell grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div class="reveal">
+        <div class="section-shell">
+          <div class="reveal max-w-3xl">
             <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-[#d8ead3]">Get started</p>
             <h2 class="mt-3 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">Request Your Free Estimate</h2>
             <p class="mt-5 text-base leading-7 text-slate-100 sm:text-lg sm:leading-8">
-              A focused final step for visitors who are ready to compare options, schedule a
-              cleaning, or simply ask what the first visit would look like.
+              Reach out the way you prefer. We reply during business hours, usually within an hour.
             </p>
-            <div class="mt-8 grid gap-3">
-              {
-                processItems.map((item, index) => (
-                  <div class="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.08] px-4 py-3">
-                    <span class="flex size-8 items-center justify-center rounded-full bg-[#2E7D32] text-sm font-extrabold text-white">{index + 1}</span>
-                    <span class="font-bold">{item}</span>
-                  </div>
-                ))
-              }
-            </div>
           </div>
 
-          <form class="reveal grid gap-4 rounded-lg bg-white p-5 text-[#0B1F33] shadow-[0_34px_90px_rgba(2,8,23,0.32)] md:grid-cols-2 md:p-8" aria-label="Free estimate form">
-            <label class="grid gap-2 text-sm font-bold">
-              Name
-              <input class="field" type="text" name="name" autocomplete="name" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold">
-              Phone
-              <input class="field" type="tel" name="phone" autocomplete="tel" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold">
-              Email
-              <input class="field" type="email" name="email" autocomplete="email" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold">
-              ZIP Code
-              <input class="field" type="text" name="zip" inputmode="numeric" autocomplete="postal-code" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold md:col-span-2">
-              Service Type
-              <select class="field" name="service">
-                {serviceOptions.map((service) => <option>{service}</option>)}
-              </select>
-            </label>
-            <label class="grid gap-2 text-sm font-bold md:col-span-2">
-              Message
-              <textarea class="field min-h-32 py-3" name="message"></textarea>
-            </label>
-            <button
-              type="submit"
-              class="min-h-[52px] rounded-md bg-[#2E7D32] px-6 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(46,125,50,0.25)] transition hover:-translate-y-0.5 hover:bg-[#2EB872] md:col-span-2"
+          <div class="mt-8 grid gap-3 sm:grid-cols-3">
+            <a
+              href={whatsappDefaultUrl}
+              target="_blank"
+              rel="noopener"
+              class="reveal group flex items-center gap-4 rounded-lg border border-white/10 bg-white/[0.06] p-4 transition hover:border-[#25D366]/60 hover:bg-white/[0.1]"
             >
-              Get My Free Estimate
-            </button>
-            <p class="text-center text-xs text-slate-500 md:col-span-2">
-              Prefer to talk now? Call <a class="font-bold text-[#0B1F33]" href={brand.phoneHref}>{brand.phoneDisplay}</a>
-            </p>
-          </form>
+              <span class="flex size-11 shrink-0 items-center justify-center rounded-md bg-[#25D366]/15 text-[#25D366]">
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  {iconPaths.whatsapp.map((path) => <path d={path} />)}
+                </svg>
+              </span>
+              <span class="min-w-0">
+                <span class="block text-xs font-extrabold uppercase tracking-[0.14em] text-[#d8ead3]">WhatsApp</span>
+                <span class="mt-1 block truncate text-base font-bold text-white">Chat with us now</span>
+              </span>
+            </a>
+            <a
+              href={brand.phoneHref}
+              class="reveal group flex items-center gap-4 rounded-lg border border-white/10 bg-white/[0.06] p-4 transition hover:border-white/30 hover:bg-white/[0.1]"
+            >
+              <span class="flex size-11 shrink-0 items-center justify-center rounded-md bg-white/10 text-white">
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  {iconPaths.phone.map((path) => <path d={path} />)}
+                </svg>
+              </span>
+              <span class="min-w-0">
+                <span class="block text-xs font-extrabold uppercase tracking-[0.14em] text-[#d8ead3]">Call</span>
+                <span class="mt-1 block truncate text-base font-bold text-white">{brand.phoneDisplay}</span>
+              </span>
+            </a>
+            <a
+              href={`mailto:${brand.email}`}
+              class="reveal group flex items-center gap-4 rounded-lg border border-white/10 bg-white/[0.06] p-4 transition hover:border-white/30 hover:bg-white/[0.1]"
+            >
+              <span class="flex size-11 shrink-0 items-center justify-center rounded-md bg-white/10 text-white">
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  {iconPaths.mail.map((path) => <path d={path} />)}
+                </svg>
+              </span>
+              <span class="min-w-0">
+                <span class="block text-xs font-extrabold uppercase tracking-[0.14em] text-[#d8ead3]">Email</span>
+                <span class="mt-1 block truncate text-base font-bold text-white">{brand.email}</span>
+              </span>
+            </a>
+          </div>
+
+          <div class="mt-12 grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+            <div class="reveal">
+              <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-[#d8ead3]">How it works</p>
+              <p class="mt-3 text-2xl font-bold leading-tight sm:text-3xl">From request to a fresh, ready space.</p>
+              <div class="mt-6 grid gap-3">
+                {
+                  processItems.map((item, index) => (
+                    <div class="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.08] px-4 py-3">
+                      <span class="flex size-8 items-center justify-center rounded-full bg-[#2E7D32] text-sm font-extrabold text-white">{index + 1}</span>
+                      <span class="font-bold">{item}</span>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+
+            <div class="reveal relative">
+              <form
+                id="estimate-form"
+                class="grid gap-4 rounded-lg bg-white p-5 text-[#0B1F33] shadow-[0_34px_90px_rgba(2,8,23,0.32)] md:grid-cols-2 md:p-8"
+                aria-label="Free estimate form"
+                novalidate
+              >
+                <label class="grid gap-2 text-sm font-bold">
+                  Name
+                  <input class="field" type="text" name="name" autocomplete="name" required minlength="2" />
+                </label>
+                <label class="grid gap-2 text-sm font-bold">
+                  Phone
+                  <input class="field" type="tel" name="phone" autocomplete="tel" required minlength="7" />
+                </label>
+                <label class="grid gap-2 text-sm font-bold">
+                  Email
+                  <input class="field" type="email" name="email" autocomplete="email" required />
+                </label>
+                <label class="grid gap-2 text-sm font-bold">
+                  ZIP Code
+                  <input class="field" type="text" name="zip" inputmode="numeric" autocomplete="postal-code" required pattern="[0-9]{5}" maxlength="5" />
+                </label>
+                <label class="grid gap-2 text-sm font-bold md:col-span-2">
+                  Service Type
+                  <select class="field" name="service">
+                    {serviceOptions.map((service) => <option>{service}</option>)}
+                  </select>
+                </label>
+                <label class="grid gap-2 text-sm font-bold md:col-span-2">
+                  Message <span class="font-normal text-slate-500">(optional)</span>
+                  <textarea class="field min-h-32 py-3" name="message" placeholder="Tell us about your space, square footage, or any specific needs."></textarea>
+                </label>
+
+                <label class="hidden" aria-hidden="true">
+                  Website
+                  <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                </label>
+
+                <label class="flex items-start gap-3 text-xs leading-5 text-slate-600 md:col-span-2">
+                  <input type="checkbox" name="consent" required class="mt-0.5 size-4 shrink-0 accent-[#2E7D32]" />
+                  <span>
+                    I agree to be contacted about my free estimate. We will not share your information.
+                  </span>
+                </label>
+
+                <button
+                  type="submit"
+                  data-submit
+                  class="min-h-[52px] rounded-md bg-[#2E7D32] px-6 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(46,125,50,0.25)] transition hover:-translate-y-0.5 hover:bg-[#256628] disabled:cursor-not-allowed disabled:opacity-70 md:col-span-2"
+                >
+                  <span data-submit-label>Get My Free Estimate</span>
+                  <span data-submit-loading hidden>Sending…</span>
+                </button>
+
+                <p
+                  data-form-error
+                  hidden
+                  class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700 md:col-span-2"
+                  role="alert"
+                ></p>
+
+                <p class="text-center text-xs text-slate-500 md:col-span-2">
+                  Prefer to talk now? <a class="font-bold text-[#0B1F33] hover:underline" href={brand.phoneHref}>Call {brand.phoneDisplay}</a>
+                </p>
+              </form>
+
+              <div
+                id="form-success"
+                hidden
+                class="rounded-lg bg-white p-6 text-[#0B1F33] shadow-[0_34px_90px_rgba(2,8,23,0.32)] md:p-10"
+                role="status"
+                aria-live="polite"
+              >
+                <div class="flex size-14 items-center justify-center rounded-full bg-[#2E7D32] text-white">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" class="size-7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    {iconPaths.check.map((path) => <path d={path} />)}
+                  </svg>
+                </div>
+                <h3 class="mt-5 text-2xl font-bold">Thanks — we got your request.</h3>
+                <p class="mt-3 text-base leading-7 text-[#5F6B73]">
+                  For the fastest reply, continue the conversation on WhatsApp. We will also send a confirmation to the email you provided.
+                </p>
+                <a
+                  data-success-whatsapp
+                  href={whatsappDefaultUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="mt-6 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-md bg-[#25D366] px-6 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(37,211,102,0.32)] transition hover:-translate-y-0.5 hover:bg-[#1ebe57]"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    {iconPaths.whatsapp.map((path) => <path d={path} />)}
+                  </svg>
+                  Continue on WhatsApp
+                </a>
+                <p class="mt-4 text-center text-xs text-slate-500">
+                  Or call <a class="font-bold text-[#0B1F33] hover:underline" href={brand.phoneHref}>{brand.phoneDisplay}</a>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -495,15 +674,24 @@ const localBusinessSchema = {
           <p class="mt-4 max-w-sm text-sm leading-6 text-slate-300">{brand.tagline}</p>
           <div class="mt-6">
             <p class="font-bold text-white">Ready for a cleaner space?</p>
-            <a class="mt-3 inline-flex min-h-11 items-center justify-center rounded-md bg-[#2E7D32] px-5 text-sm font-extrabold text-white transition hover:bg-[#2EB872]" href="#contact">
+            <a class="mt-3 inline-flex min-h-11 items-center justify-center rounded-md bg-[#2E7D32] px-5 text-sm font-extrabold text-white transition hover:bg-[#256628]" href="#contact">
               Get Free Estimate
             </a>
           </div>
         </div>
         <div class="grid gap-4 text-sm text-slate-200 sm:grid-cols-2">
-          <p><span class="block font-bold text-white">Phone</span> <a href={brand.phoneHref}>{brand.phoneDisplay}</a></p>
-          <p class="break-words"><span class="block font-bold text-white">Email</span> <a href={`mailto:${brand.email}`}>{brand.email}</a></p>
-          <p class="break-words"><span class="block font-bold text-white">Instagram</span> <a href={brand.instagramHref}>{brand.instagram}</a></p>
+          <p><span class="block font-bold text-white">Phone</span> <a class="transition hover:text-white" href={brand.phoneHref}>{brand.phoneDisplay}</a></p>
+          <p class="break-words">
+            <span class="block font-bold text-white">WhatsApp</span>
+            <a class="inline-flex items-center gap-1 transition hover:text-white" href={whatsappDefaultUrl} target="_blank" rel="noopener">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="size-3.5 text-[#25D366]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                {iconPaths.whatsapp.map((path) => <path d={path} />)}
+              </svg>
+              Chat now
+            </a>
+          </p>
+          <p class="break-words"><span class="block font-bold text-white">Email</span> <a class="transition hover:text-white" href={`mailto:${brand.email}`}>{brand.email}</a></p>
+          <p class="break-words"><span class="block font-bold text-white">Instagram</span> <a class="transition hover:text-white" href={brand.instagramHref} target="_blank" rel="noopener">{brand.instagram}</a></p>
           <p><span class="block font-bold text-white">Service Area</span> Massachusetts</p>
         </div>
         <nav class="grid gap-2 text-sm" aria-label="Footer navigation">
@@ -520,20 +708,141 @@ const localBusinessSchema = {
       </div>
     </footer>
 
-    <div class="fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 grid grid-cols-2 gap-2 md:hidden">
+    <div class="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 grid grid-cols-3 gap-2 md:hidden">
+      <a
+        href={whatsappDefaultUrl}
+        target="_blank"
+        rel="noopener"
+        class="flex min-h-14 items-center justify-center gap-1.5 rounded-md bg-[#25D366] text-sm font-extrabold text-white shadow-2xl"
+        aria-label="Chat on WhatsApp"
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          {iconPaths.whatsapp.map((path) => <path d={path} />)}
+        </svg>
+        WhatsApp
+      </a>
       <a
         href={brand.phoneHref}
         class="flex min-h-14 items-center justify-center rounded-md bg-[#2E7D32] text-sm font-extrabold text-white shadow-2xl"
         aria-label={`Call ${brand.name} now`}
       >
-        Call Now
+        Call
       </a>
       <a
         href="#contact"
         class="flex min-h-14 items-center justify-center rounded-md bg-white text-sm font-extrabold text-[#0B1F33] shadow-2xl"
       >
-        Free Estimate
+        Estimate
       </a>
     </div>
+
+    <script
+      is:inline
+      define:vars={{
+        whatsappNumber: brand.whatsappNumber,
+        whatsappFallback: whatsappDefaultUrl,
+      }}
+    >
+      (() => {
+        const form = document.getElementById("estimate-form");
+        const success = document.getElementById("form-success");
+        if (!form || !success) return;
+
+        const submitBtn = form.querySelector("[data-submit]");
+        const labelEl = form.querySelector("[data-submit-label]");
+        const loadingEl = form.querySelector("[data-submit-loading]");
+        const errorEl = form.querySelector("[data-form-error]");
+        const waBtn = success.querySelector("[data-success-whatsapp]");
+
+        const setLoading = (loading) => {
+          if (!submitBtn) return;
+          submitBtn.disabled = loading;
+          if (labelEl) labelEl.hidden = loading;
+          if (loadingEl) loadingEl.hidden = !loading;
+        };
+
+        const showError = (msg) => {
+          if (!errorEl) return;
+          errorEl.textContent = msg;
+          errorEl.hidden = false;
+        };
+
+        const clearError = () => {
+          if (!errorEl) return;
+          errorEl.textContent = "";
+          errorEl.hidden = true;
+        };
+
+        const buildWhatsappUrl = (data) => {
+          const lines = [
+            "Hi! I'd like a free cleaning estimate.",
+            "",
+            `Name: ${data.name}`,
+            `Phone: ${data.phone}`,
+            `Email: ${data.email}`,
+            `ZIP: ${data.zip}`,
+            `Service: ${data.service}`,
+          ];
+          if (data.message) lines.push(`Notes: ${data.message}`);
+          return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
+        };
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          clearError();
+
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+
+          const fd = new FormData(form);
+          const data = {
+            name: String(fd.get("name") || "").trim(),
+            phone: String(fd.get("phone") || "").trim(),
+            email: String(fd.get("email") || "").trim(),
+            zip: String(fd.get("zip") || "").trim(),
+            service: String(fd.get("service") || "").trim(),
+            message: String(fd.get("message") || "").trim(),
+            consent: fd.get("consent") === "on",
+            website: String(fd.get("website") || ""),
+          };
+
+          setLoading(true);
+
+          let ok = false;
+          try {
+            const res = await fetch("/api/quote", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+            const payload = await res.json().catch(() => ({}));
+            ok = res.ok && payload.ok === true;
+            if (!ok) {
+              showError(payload.error || "Something went wrong. Please try WhatsApp or call us.");
+            }
+          } catch {
+            showError("Network issue. Please try WhatsApp or call us.");
+          } finally {
+            setLoading(false);
+          }
+
+          if (!ok) {
+            if (waBtn) waBtn.setAttribute("href", buildWhatsappUrl(data));
+            return;
+          }
+
+          if (waBtn) waBtn.setAttribute("href", buildWhatsappUrl(data));
+          form.hidden = true;
+          success.hidden = false;
+          success.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+
+        if (waBtn && !waBtn.getAttribute("href")) {
+          waBtn.setAttribute("href", whatsappFallback);
+        }
+      })();
+    </script>
   </body>
 </html>
