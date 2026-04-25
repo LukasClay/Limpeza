@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import MobileCTA from "../components/ui/MobileCTA.astro";
+import { brand } from "../data/brand";
+import { buildBreadcrumbSchema } from "../lib/schema";
+
+const lastUpdated = "April 25, 2026";
+
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: "Terms of Service" },
+]);
+---
+
+<BaseLayout
+  title="Terms of Service | ALL PRO Cleaning Services"
+  description="The terms that govern your use of the ALL PRO Cleaning Services website and the cleaning services we provide."
+  jsonLd={breadcrumb}
+>
+  <Header />
+  <main id="main" class="bg-white pt-16 md:pt-[72px]">
+    <article class="section-shell prose-style py-16 md:py-24">
+      <p class="eyebrow">Legal</p>
+      <h1 class="mt-3 text-3xl font-bold text-navy sm:text-4xl md:text-5xl">Terms of Service</h1>
+      <p class="mt-3 text-sm text-muted">Last updated: {lastUpdated}</p>
+
+      <p class="mt-8">
+        These terms govern your use of this website and the cleaning services provided by
+        ALL PRO Cleaning Services ("we", "us", "our"). By using the site or hiring our team,
+        you agree to these terms.
+      </p>
+
+      <h2>Estimates and quotes</h2>
+      <p>
+        Estimates we send are based on the information you provide about your space. The final
+        price may be adjusted in person if conditions on site differ significantly (for example,
+        unusual square footage, level of dirt, or special surfaces). We will always confirm any
+        change with you before continuing the work.
+      </p>
+
+      <h2>Scheduling, cancellation and rescheduling</h2>
+      <p>
+        We ask for at least 24 hours of notice for cancellations and reschedules whenever
+        possible. This helps us offer the time slot to another client. Late cancellations may be
+        subject to a fee at our discretion.
+      </p>
+
+      <h2>Access to your space</h2>
+      <p>
+        You agree to provide safe and reasonable access to your home or business at the
+        scheduled time. If we cannot enter the space, the visit may be billed in part or in full.
+      </p>
+
+      <h2>Payment</h2>
+      <p>
+        Payment is due upon completion of the cleaning unless agreed otherwise. Accepted payment
+        methods are confirmed at the time of the estimate.
+      </p>
+
+      <h2>Satisfaction</h2>
+      <p>
+        If you are not satisfied with any area of the cleaning, contact us within 24 hours and
+        we will return to re-clean the area at no extra cost. This is in lieu of refunds.
+      </p>
+
+      <h2>Liability</h2>
+      <p>
+        ALL PRO Cleaning Services is fully insured. In the unlikely event of damage caused by
+        our team, contact us right away and we will work with you to make it right under our
+        coverage. We are not responsible for pre-existing damage, normal wear, or items that
+        cannot be safely cleaned.
+      </p>
+
+      <h2>Use of the website</h2>
+      <p>
+        You agree to use this website only for lawful purposes and in a way that does not
+        interfere with its normal operation. The content of the site is provided as is, without
+        warranties of any kind.
+      </p>
+
+      <h2>Changes to these terms</h2>
+      <p>
+        We may update these terms from time to time. The "last updated" date at the top of this
+        page reflects the most recent change. Continued use of the site or our services after
+        updates means you accept the revised terms.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms? Reach out at
+        <a href={`mailto:${brand.email}`}>{brand.email}</a> or
+        <a href={brand.phoneHref}>{brand.phoneDisplay}</a>.
+      </p>
+    </article>
+  </main>
+  <Footer />
+  <MobileCTA />
+</BaseLayout>
+
+<style is:global>
+  .prose-style {
+    max-width: 720px;
+    color: var(--color-muted);
+    line-height: 1.75;
+  }
+  .prose-style h2 {
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+  .prose-style p,
+  .prose-style ul {
+    margin-bottom: 1rem;
+  }
+  .prose-style ul {
+    padding-left: 1.5rem;
+    list-style: disc;
+  }
+  .prose-style a {
+    font-weight: 700;
+    color: var(--color-navy);
+    text-decoration: underline;
+  }
+  .prose-style a:hover {
+    color: var(--color-green-dark);
+  }
+</style>

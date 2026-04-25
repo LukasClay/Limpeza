@@ -9,8 +9,14 @@
     "check": "astro check",
     "preview": "astro preview --host 127.0.0.1",
     "start": "node ./dist/server/entry.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "fonts:fetch": "node scripts/fetch-fonts.mjs",
-    "assets:build": "node scripts/build-static-assets.mjs"
+    "assets:build": "node scripts/build-static-assets.mjs",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run check"
   },
   "dependencies": {
     "@astrojs/node": "^9.4.0",
@@ -21,6 +27,10 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.7.3",
+    "simple-git-hooks": "^2.13.1",
     "typescript": "^5.9.2"
   }
 }

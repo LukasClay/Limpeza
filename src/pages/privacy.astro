@@ -4,13 +4,20 @@ import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import MobileCTA from "../components/ui/MobileCTA.astro";
 import { brand } from "../data/brand";
+import { buildBreadcrumbSchema } from "../lib/schema";
 
 const lastUpdated = "April 25, 2026";
+
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: "Privacy Policy" },
+]);
 ---
 
 <BaseLayout
   title="Privacy Policy | ALL PRO Cleaning Services"
   description="How ALL PRO Cleaning Services collects, uses, and protects your information."
+  jsonLd={breadcrumb}
 >
   <Header />
   <main class="bg-white pt-16 md:pt-[72px]">

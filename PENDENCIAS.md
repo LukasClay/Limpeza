@@ -58,11 +58,11 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 
 ### Legal
 - [x] **Politica de Privacidade** boilerplate em `/privacy` (2026-04-25)
-- [ ] **Aprovar/revisar** o texto da Politica de Privacidade ja publicado em `src/pages/privacy.astro`
-- [ ] (Opcional) Termos de Servico
+- [x] **Termos de Servico** boilerplate em `/terms` (2026-04-25)
+- [ ] **Aprovar/revisar** os textos publicados em `src/pages/privacy.astro` e `src/pages/terms.astro`
 - [ ] Confirmar se a empresa tem **LLC ou Inc.** registrada (impacta o copy "fully insured")
 - [ ] Confirmar tipo de seguro real (general liability? bonded?)
-- [ ] Atualizar `lastUpdated` em `src/pages/privacy.astro` quando alterar a politica
+- [ ] Atualizar `lastUpdated` em `/privacy` e `/terms` quando alterar os textos
 
 ---
 
@@ -118,7 +118,8 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
   - Ao clicar num link
   - Ao tocar fora
   - Ao pressionar Escape
-- [ ] `aria-current` na navegacao quando o link aponta para a secao em viewport
+- [x] `aria-current` na navegacao via IntersectionObserver — destaca o item da secao em viewport (2026-04-25)
+- [x] Skip-to-content link (`<a href="#main">Skip to content</a>`) no `BaseLayout` (2026-04-25)
 - [ ] Verificar contraste WCAG AAA em todos os textos
 - [ ] Testar com leitor de tela (VoiceOver / NVDA)
 - [ ] Testar navegacao so com teclado
@@ -126,16 +127,18 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 ### SEO / paginas
 - [x] Pagina 404 customizada (`src/pages/404.astro`) (2026-04-25)
 - [x] Pagina de privacidade (`src/pages/privacy.astro`) linkada do formulario e footer
-- [ ] (Opcional) Termos de servico (`src/pages/terms.astro`)
+- [x] Pagina de Termos de Servico (`src/pages/terms.astro`) com BreadcrumbList JSON-LD, linkada do footer (2026-04-25)
 - [x] Instalar `@astrojs/sitemap` — gera `sitemap-index.xml` automaticamente (2026-04-25)
-- [ ] Adicionar JSON-LD `BreadcrumbList` quando houver mais paginas
+- [x] JSON-LD `BreadcrumbList` em /privacy e /terms (2026-04-25)
+- [x] JSON-LD `FAQPage` com as 9 FAQ items (2026-04-25)
+- [x] JSON-LD `Service` por servico (Weekly, Bi-weekly, Monthly, Move In, Move Out, Post Construction) (2026-04-25)
 - [ ] (Opcional) `<link rel="alternate" hreflang>` se virar bilingue
 
 ### Performance
 - [x] Migrar imagens para `astro:assets` (`<Picture>`) — gera AVIF/WebP automaticamente (2026-04-25)
 - [x] Self-host fontes Cinzel/Montserrat em `/public/fonts/` via `scripts/fetch-fonts.mjs` (2026-04-25). Subset `latin` apenas, ~64KB total apos dedup de variable fonts
 - [x] Pre-carregar (`<link rel="preload">`) `montserrat-400.woff2` e `cinzel-600.woff2` (2026-04-25)
-- [ ] Comprimir `hero-cleaning.png` na fonte (atualmente PNG 1.4MB; o `<Picture>` ja serve AVIF/WebP otimizados, mas a origem ainda e pesada e o og:image foi resolvido com asset dedicado)
+- [x] Comprimir `hero-cleaning.png` na fonte (1.4MB -> 630KB, 56% saved) via `scripts/build-static-assets.mjs` (2026-04-25)
 - [ ] Adicionar `loading="lazy"` em todas as imagens fora do fold (ja tem em algumas)
 - [ ] Audit Lighthouse: alvo 95+ em todas as categorias
 - [ ] Cache do `<Picture>` em SSR Node — primeira request gera, depois serve cache. Avaliar usar CDN (Cloudflare na frente do Railway)
@@ -147,17 +150,17 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
   - `Referrer-Policy: strict-origin-when-cross-origin`
   - `Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()`
   - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
-- [x] `Content-Security-Policy` adicionado ao middleware (2026-04-25). Permissivo: `'self'` + `'unsafe-inline'` para scripts/styles (necessario com Astro `define:vars` e Tailwind v4 inline)
-- [ ] Apertar CSP usando nonces no Astro 5 (`Astro.generator` + `crypto.randomUUID()`) para remover `'unsafe-inline'`
+- [x] `Content-Security-Policy` adicionado ao middleware (2026-04-25)
+- [x] Apertar CSP de scripts com nonces per-request + `'strict-dynamic'` (2026-04-25). `'unsafe-inline'` permanece apenas em `style-src` por causa dos `<style>` scoped que o Astro injeta — anotado para tightening futuro
 - [ ] Rate-limit do `/api/quote` hoje e em memoria (perdido em restart). Migrar para Redis/Upstash se volume crescer
 - [ ] Adicionar reCAPTCHA v3 (invisivel) ou Cloudflare Turnstile no formulario (alem do honeypot atual)
 - [ ] Testar com `securityheaders.com` apos deploy
 
 ### Tooling
-- [ ] Adicionar script `lint` no `package.json` (Prettier + Astro plugin)
-- [ ] Adicionar pre-commit hook (Husky ou simple-git-hooks) que roda `astro check`
+- [x] Prettier + plugin Astro + plugin Tailwind via `npm run format` / `npm run format:check` + `.prettierrc.json` + `.prettierignore` (2026-04-25)
+- [x] Pre-commit hook via `simple-git-hooks` rodando `npm run check` (2026-04-25). Ativar localmente com `npm run prepare`
 - [x] CI no GitHub Actions: `astro check` e `astro build` em todo PR e push para `main` (2026-04-25, `.github/workflows/check.yml`)
-- [ ] Configurar Renovate ou Dependabot para atualizacoes automaticas
+- [x] Dependabot configurado para npm + GitHub Actions (semanal, com agrupamento astro/tailwind/tooling) em `.github/dependabot.yml` (2026-04-25)
 
 ---
 
@@ -165,14 +168,14 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 
 ### Conversao / confianca
 - [ ] **Beneficios** — secao com 4-6 cards (insured, trained team, eco products, free estimate, satisfaction guarantee, bilingual service)
-- [ ] **Como Funciona** — virar secao propria com 4 passos visuais grandes (hoje esta inline no contato)
+- [x] **Como Funciona** — secao propria `HowItWorks.astro` com 4 passos visuais (2026-04-25)
 - [ ] **Antes / Depois** — galeria com slider ou grid (precisa fotos reais)
 - [x] **FAQ** — 9 perguntas comuns em `src/data/site.ts` (`faqItems`) — generico, revisar (2026-04-25)
 - [ ] **Garantia 100% Satisfacao** — selo visual + texto curto (depende de confirmacao do dono)
 - [x] **Area de Atendimento** — secao com lista de cidades (2026-04-25). Falta confirmar lista real
 - [ ] (Opcional) Mapa interativo na secao Area de Atendimento
 - [ ] **Reviews reais** — substituir os trust cards atuais quando reviews chegarem
-- [ ] **CTA final reforcado** — antes do footer, com 3 canais (WhatsApp, Call, Form) e prazo ("respondemos em 1h")
+- [x] **CTA final reforcado** — `CtaFinal.astro` antes do footer, com 3 canais (WhatsApp, Call, Form) (2026-04-25)
 
 ### Copy a reescrever (precisa aprovacao)
 - [ ] Cards de servico — hoje sao poeticos ("A reliable rhythm…"), trocar por concretos ("Most popular plan. 2-3h on average. Same team when possible.")

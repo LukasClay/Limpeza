@@ -9,10 +9,13 @@ import Statement from "../components/sections/Statement.astro";
 import About from "../components/sections/About.astro";
 import WhyUs from "../components/sections/WhyUs.astro";
 import ServiceArea from "../components/sections/ServiceArea.astro";
+import HowItWorks from "../components/sections/HowItWorks.astro";
 import Faq from "../components/sections/Faq.astro";
 import Contact from "../components/sections/Contact.astro";
+import CtaFinal from "../components/sections/CtaFinal.astro";
 import MobileCTA from "../components/ui/MobileCTA.astro";
 import { brand, SITE_URL } from "../data/brand";
+import { faqItems, services } from "../data/site";
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
@@ -38,11 +41,46 @@ const localBusinessSchema = {
   description:
     "Professional residential and commercial cleaning services in Massachusetts. Fully insured, reliable, and available for weekly, bi-weekly, monthly, move-in, move-out, and post-construction cleaning.",
 };
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+
+const serviceSchemas = services.map((service) => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: service.title,
+  description: service.text,
+  provider: {
+    "@type": "LocalBusiness",
+    name: brand.name,
+    telephone: brand.phoneDisplay,
+    url: SITE_URL,
+  },
+  areaServed: {
+    "@type": "AdministrativeArea",
+    name: "Massachusetts",
+  },
+}));
+
+const jsonLdGraph = {
+  "@context": "https://schema.org",
+  "@graph": [localBusinessSchema, faqSchema, ...serviceSchemas],
+};
 ---
 
-<BaseLayout jsonLd={localBusinessSchema}>
+<BaseLayout jsonLd={jsonLdGraph}>
   <Header />
-  <main id="home" class="pt-16 md:pt-[72px]">
+  <main id="main" class="pt-16 md:pt-[72px]">
     <Hero />
     <TrustBar />
     <Services />
@@ -50,8 +88,10 @@ const localBusinessSchema = {
     <About />
     <WhyUs />
     <ServiceArea />
+    <HowItWorks />
     <Faq />
     <Contact />
+    <CtaFinal />
   </main>
   <Footer />
   <MobileCTA />
