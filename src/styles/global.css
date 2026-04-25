@@ -49,7 +49,7 @@ textarea {
 }
 
 .section-shell {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1120px, calc(100% - clamp(24px, 6vw, 40px)));
   margin-inline: auto;
 }
 
