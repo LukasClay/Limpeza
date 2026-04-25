@@ -107,19 +107,21 @@ textarea {
   }
 }
 
+/* Progressive enhancement: content is visible by default. The reveal script in
+ * BaseLayout adds .reveal-armed on <html> before observing elements, then each
+ * element gets .is-visible when it enters the viewport. If the script never
+ * runs (CSP block, JS error, slow network) content stays visible. */
 .reveal {
-  opacity: 0;
-  transform: translateY(14px);
   transition:
     opacity 620ms ease,
     transform 620ms ease;
   transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+html.reveal-armed .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(14px);
+  will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -136,7 +138,7 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 
-  .reveal {
+  html.reveal-armed .reveal:not(.is-visible) {
     opacity: 1;
     transform: none;
   }

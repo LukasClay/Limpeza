@@ -11,10 +11,12 @@ const STATIC_HEADERS: Record<string, string> = {
 const buildCsp = (nonce: string) =>
   [
     "default-src 'self'",
-    // Inline scripts (JSON-LD in <head>, form handler in Contact) carry a
-    // per-request nonce. 'strict-dynamic' lets nonced scripts load other
-    // scripts they trust without listing every origin here.
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    // 'self' covers the bundled module scripts emitted by Astro at /_astro/*.js
+    // (those carry no nonce). Per-request 'nonce-XXX' covers our two inline
+    // scripts (JSON-LD in <head>, form handler in Contact). 'strict-dynamic' is
+    // intentionally NOT used here because it would force every bundled script
+    // tag to also carry a nonce, which Astro doesn't emit by default.
+    `script-src 'self' 'nonce-${nonce}'`,
     // 'unsafe-inline' is still required because Astro injects scoped <style>
     // blocks at build time. Tightening tracked in PENDENCIAS.
     "style-src 'self' 'unsafe-inline'",

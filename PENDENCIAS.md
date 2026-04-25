@@ -151,7 +151,8 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
   - `Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()`
   - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
 - [x] `Content-Security-Policy` adicionado ao middleware (2026-04-25)
-- [x] Apertar CSP de scripts com nonces per-request + `'strict-dynamic'` (2026-04-25). `'unsafe-inline'` permanece apenas em `style-src` por causa dos `<style>` scoped que o Astro injeta — anotado para tightening futuro
+- [x] Apertar CSP de scripts com nonces per-request (2026-04-25). `'self' 'nonce-XXX'` apenas — scripts bundled (`<script type="module">` em `/_astro/`) rodam via `'self'`, scripts inline (JSON-LD, form handler) rodam via nonce. `'strict-dynamic'` foi removido logo apos o primeiro deploy porque bloqueava os bundled scripts do Astro e quebrava a animacao `.reveal`. `'unsafe-inline'` permanece em `style-src` por causa dos `<style>` scoped que o Astro injeta — anotado para tightening futuro
+- [x] `.reveal` agora e progressive enhancement: default visivel; o JS adiciona `html.reveal-armed` antes de observar e remove invisibilidade quando entra no viewport. Se o JS falhar (CSP, erro, network), o conteudo aparece normal (2026-04-25)
 - [ ] Rate-limit do `/api/quote` hoje e em memoria (perdido em restart). Migrar para Redis/Upstash se volume crescer
 - [ ] Adicionar reCAPTCHA v3 (invisivel) ou Cloudflare Turnstile no formulario (alem do honeypot atual)
 - [ ] Testar com `securityheaders.com` apos deploy
