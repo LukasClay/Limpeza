@@ -8,7 +8,9 @@
     "build": "astro build",
     "check": "astro check",
     "preview": "astro preview --host 127.0.0.1",
-    "start": "node ./dist/server/entry.mjs"
+    "start": "node ./dist/server/entry.mjs",
+    "fonts:fetch": "node scripts/fetch-fonts.mjs",
+    "assets:build": "node scripts/build-static-assets.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^9.4.0",

@@ -50,9 +50,11 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [ ] Avaliar Meta Ads / Google Ads para captacao paga apos o site estar em ar
 
 ### Identidade visual
-- [ ] Gerar `apple-touch-icon.png` (180x180) — atualmente so existe `favicon.svg`
-- [ ] Gerar `og-image.jpg` dedicado (1200x630, ~150KB) — atualmente reaproveita `hero-cleaning.png` (1.4MB, pesado para preview)
+- [x] Gerar `apple-touch-icon.png` (180x180) via `scripts/build-static-assets.mjs` (2026-04-25)
+- [x] Gerar `og-image.jpg` dedicado (1200x630, ~56KB) via `scripts/build-static-assets.mjs` (2026-04-25)
 - [ ] Logo em SVG transparente (atualmente usa PNG com `mix-blend-multiply` no header — fragil)
+- [ ] Substituir o `apple-touch-icon.png` automatico por arte dedicada (atualmente e o logo recortado em fundo navy 180x180)
+- [ ] Substituir o `og-image.jpg` automatico por arte com texto/CTA (atualmente e o hero recortado em 1200x630)
 
 ### Legal
 - [x] **Politica de Privacidade** boilerplate em `/privacy` (2026-04-25)
@@ -131,9 +133,9 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 
 ### Performance
 - [x] Migrar imagens para `astro:assets` (`<Picture>`) — gera AVIF/WebP automaticamente (2026-04-25)
-- [ ] Self-host fontes Cinzel/Montserrat em `/public/fonts/` (elimina request ao Google Fonts)
-- [ ] Pre-carregar (`<link rel="preload">`) a fonte usada no H1
-- [ ] Comprimir `hero-cleaning.png` na fonte (atualmente PNG 1.4MB; o `<Picture>` ja serve AVIF/WebP otimizados, mas a origem ainda e pesada)
+- [x] Self-host fontes Cinzel/Montserrat em `/public/fonts/` via `scripts/fetch-fonts.mjs` (2026-04-25). Subset `latin` apenas, ~64KB total apos dedup de variable fonts
+- [x] Pre-carregar (`<link rel="preload">`) `montserrat-400.woff2` e `cinzel-600.woff2` (2026-04-25)
+- [ ] Comprimir `hero-cleaning.png` na fonte (atualmente PNG 1.4MB; o `<Picture>` ja serve AVIF/WebP otimizados, mas a origem ainda e pesada e o og:image foi resolvido com asset dedicado)
 - [ ] Adicionar `loading="lazy"` em todas as imagens fora do fold (ja tem em algumas)
 - [ ] Audit Lighthouse: alvo 95+ em todas as categorias
 - [ ] Cache do `<Picture>` em SSR Node — primeira request gera, depois serve cache. Avaliar usar CDN (Cloudflare na frente do Railway)
@@ -145,7 +147,8 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
   - `Referrer-Policy: strict-origin-when-cross-origin`
   - `Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()`
   - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
-- [ ] Adicionar `Content-Security-Policy` no middleware (precisa mapear todos os origins de fontes/scripts)
+- [x] `Content-Security-Policy` adicionado ao middleware (2026-04-25). Permissivo: `'self'` + `'unsafe-inline'` para scripts/styles (necessario com Astro `define:vars` e Tailwind v4 inline)
+- [ ] Apertar CSP usando nonces no Astro 5 (`Astro.generator` + `crypto.randomUUID()`) para remover `'unsafe-inline'`
 - [ ] Rate-limit do `/api/quote` hoje e em memoria (perdido em restart). Migrar para Redis/Upstash se volume crescer
 - [ ] Adicionar reCAPTCHA v3 (invisivel) ou Cloudflare Turnstile no formulario (alem do honeypot atual)
 - [ ] Testar com `securityheaders.com` apos deploy
@@ -153,7 +156,7 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 ### Tooling
 - [ ] Adicionar script `lint` no `package.json` (Prettier + Astro plugin)
 - [ ] Adicionar pre-commit hook (Husky ou simple-git-hooks) que roda `astro check`
-- [ ] CI no GitHub Actions: rodar `astro check` e `astro build` em todo PR
+- [x] CI no GitHub Actions: `astro check` e `astro build` em todo PR e push para `main` (2026-04-25, `.github/workflows/check.yml`)
 - [ ] Configurar Renovate ou Dependabot para atualizacoes automaticas
 
 ---
@@ -190,7 +193,8 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [ ] Validar JSON-LD em https://search.google.com/test/rich-results
 - [ ] Compartilhar URL no WhatsApp e ver se a preview aparece com og:image
 - [ ] Compartilhar no LinkedIn / Facebook idem
-- [ ] Testar form com JS desativado — degrade gracioso? (hoje nao funciona sem JS, considerar fallback `action="/api/quote"` + redirect)
+- [x] Form funciona com JS desativado — `<form action="/api/quote" method="POST">` redireciona para `/thanks` apos sucesso (2026-04-25)
+- [ ] Testar fallback noscript ponta a ponta com Resend ativo (envia email + mostra `/thanks`?)
 - [ ] Testar com adblocker ativo
 - [ ] Verificar que `RESEND_API_KEY` nao vaza no client-side (so e usado em `/api/quote.ts`)
 - [ ] Verificar logs do Railway por 1-2 dias para detectar abuso/bots

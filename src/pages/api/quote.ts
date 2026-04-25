@@ -25,6 +25,9 @@ const json = (status: number, data: Record<string, unknown>) =>
     headers: { "Content-Type": "application/json" },
   });
 
+const redirect = (location: string) =>
+  new Response(null, { status: 303, headers: { Location: location } });
+
 type Lead = {
   name: string;
   phone: string;
@@ -65,17 +68,40 @@ const buildEmailText = (lead: Lead) =>
     `Message: ${lead.message || "—"}`,
   ].join("\n");
 
+const parsePayload = async (
+  request: Request,
+): Promise<{ data: Record<string, unknown>; isForm: boolean }> => {
+  const ct = request.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) {
+    return { data: await request.json(), isForm: false };
+  }
+  if (ct.includes("application/x-www-form-urlencoded") || ct.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    const data: Record<string, unknown> = {};
+    for (const [key, value] of formData.entries()) {
+      data[key] = typeof value === "string" ? value : value.name;
+    }
+    data.consent = formData.get("consent") !== null;
+    return { data, isForm: true };
+  }
+  throw new Error("Unsupported content type");
+};
+
+const errorResponse = (status: number, error: string, isForm: boolean) =>
+  isForm ? redirect(`/?error=${encodeURIComponent(error)}#contact`) : json(status, { ok: false, error });
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  let payload: Record<string, unknown>;
+  let parsed: { data: Record<string, unknown>; isForm: boolean };
   try {
-    payload = await request.json();
+    parsed = await parsePayload(request);
   } catch {
     return json(400, { ok: false, error: "Invalid request body." });
   }
+  const { data: payload, isForm } = parsed;
 
   const honeypot = typeof payload.website === "string" ? payload.website.trim() : "";
   if (honeypot.length > 0) {
-    return json(200, { ok: true });
+    return isForm ? redirect("/thanks") : json(200, { ok: true });
   }
 
   const name = String(payload.name ?? "").trim();
@@ -86,21 +112,21 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const message = String(payload.message ?? "").trim();
   const consent = Boolean(payload.consent);
 
-  if (name.length < 2) return json(400, { ok: false, error: "Please enter your name." });
-  if (phone.length < 7) return json(400, { ok: false, error: "Please enter a valid phone number." });
-  if (!isEmail(email)) return json(400, { ok: false, error: "Please enter a valid email." });
-  if (!/^\d{5}$/.test(zip)) return json(400, { ok: false, error: "Please enter a 5-digit ZIP code." });
-  if (!service) return json(400, { ok: false, error: "Please choose a service." });
-  if (!consent) return json(400, { ok: false, error: "Please agree to be contacted." });
+  if (name.length < 2) return errorResponse(400, "Please enter your name.", isForm);
+  if (phone.length < 7) return errorResponse(400, "Please enter a valid phone number.", isForm);
+  if (!isEmail(email)) return errorResponse(400, "Please enter a valid email.", isForm);
+  if (!/^\d{5}$/.test(zip)) return errorResponse(400, "Please enter a 5-digit ZIP code.", isForm);
+  if (!service) return errorResponse(400, "Please choose a service.", isForm);
+  if (!consent) return errorResponse(400, "Please agree to be contacted.", isForm);
   if (name.length > 120 || message.length > 2000) {
-    return json(400, { ok: false, error: "Submission too long." });
+    return errorResponse(400, "Submission too long.", isForm);
   }
 
   const ip = clientAddress ?? request.headers.get("x-forwarded-for") ?? "unknown";
   const now = Date.now();
   const last = recentSubmissions.get(ip) ?? 0;
   if (now - last < RATE_LIMIT_WINDOW_MS) {
-    return json(429, { ok: false, error: "Please wait a moment before sending again." });
+    return errorResponse(429, "Please wait a moment before sending again.", isForm);
   }
   recentSubmissions.set(ip, now);
   if (recentSubmissions.size > 500) {
@@ -113,7 +139,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
   if (!RESEND_API_KEY) {
     console.warn("[quote] RESEND_API_KEY not set — lead received but email skipped:", lead);
-    return json(200, { ok: true, emailSent: false });
+    return isForm ? redirect("/thanks") : json(200, { ok: true, emailSent: false });
   }
 
   try {
@@ -136,12 +162,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
       console.error("[quote] Resend error:", res.status, detail);
-      return json(200, { ok: true, emailSent: false });
+      return isForm ? redirect("/thanks") : json(200, { ok: true, emailSent: false });
     }
   } catch (error) {
     console.error("[quote] Resend request failed:", error);
-    return json(200, { ok: true, emailSent: false });
+    return isForm ? redirect("/thanks") : json(200, { ok: true, emailSent: false });
   }
 
-  return json(200, { ok: true, emailSent: true });
+  return isForm ? redirect("/thanks") : json(200, { ok: true, emailSent: true });
 };
