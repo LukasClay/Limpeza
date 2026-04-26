@@ -83,6 +83,41 @@ export const trustBar: readonly TrustBarItem[] = [
   { icon: "map", title: "Serving Massachusetts", text: "Local service area" },
 ];
 
+export type Benefit = { icon: IconName; title: string; text: string };
+
+export const benefits: readonly Benefit[] = [
+  {
+    icon: "estimate",
+    title: "Clear estimates before scheduling",
+    text: "Share what you need, where you are located, and the type of cleaning. We help you understand the next step before the visit.",
+  },
+  {
+    icon: "home",
+    title: "Cleaning for homes and businesses",
+    text: "Residential, commercial, move-in, move-out, recurring, and post-construction cleaning in one place.",
+  },
+  {
+    icon: "sparkles",
+    title: "Detail-oriented cleaning process",
+    text: "The service is focused on visible results, cleaner surfaces, and the details that make a space feel ready to use.",
+  },
+  {
+    icon: "clock",
+    title: "Simple communication",
+    text: "Request your estimate by WhatsApp, phone, or form and keep the conversation organized from the first contact.",
+  },
+  {
+    icon: "refresh",
+    title: "Flexible recurring options",
+    text: "Choose weekly, bi-weekly, monthly, or one-time cleaning depending on how often your space needs attention.",
+  },
+  {
+    icon: "map",
+    title: "Massachusetts service area",
+    text: "Send your ZIP code with the service you need so the team can confirm availability for your location.",
+  },
+];
+
 export type AboutPoint = { icon: IconName; title: string };
 
 export const aboutPoints: readonly AboutPoint[] = [
