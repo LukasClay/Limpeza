@@ -73,8 +73,8 @@ export const serviceOptions = [
 export type TrustBarItem = { icon: IconName; title: string; text: string };
 
 export const trustBar: readonly TrustBarItem[] = [
-  { icon: "shield", title: "Fully Insured", text: "Professional coverage" },
   { icon: "estimate", title: "Free Estimates", text: "Clear next step" },
+  { icon: "clock", title: "Organized Follow-up", text: "Simple communication" },
   {
     icon: "home",
     title: "Residential & Commercial",
@@ -86,7 +86,7 @@ export const trustBar: readonly TrustBarItem[] = [
 export type AboutPoint = { icon: IconName; title: string };
 
 export const aboutPoints: readonly AboutPoint[] = [
-  { icon: "shield", title: "Insured" },
+  { icon: "estimate", title: "Clear Estimates" },
   { icon: "clock", title: "Reliable" },
   { icon: "sparkles", title: "Detail-Oriented" },
   { icon: "users", title: "Professional" },
@@ -103,19 +103,19 @@ export type TrustCard = { icon: IconName; title: string; text: string };
 
 export const trustCards: readonly TrustCard[] = [
   {
-    icon: "shield",
-    title: "Fully insured",
-    text: "Built to give homeowners and businesses confidence before the first visit.",
+    icon: "estimate",
+    title: "Clear estimate process",
+    text: "A simple request flow built to help you understand the next step before scheduling.",
   },
   {
     icon: "clock",
-    title: "Clear communication",
-    text: "A simple estimate process and organized follow-up from the start.",
+    title: "Organized communication",
+    text: "Professional follow-up by WhatsApp, phone, or form so the request does not feel vague.",
   },
   {
     icon: "sparkles",
-    title: "Professional standard",
-    text: "Careful attention to detail for residential and commercial spaces.",
+    title: "Detail-oriented service",
+    text: "Careful attention to the areas that matter most in residential and commercial spaces.",
   },
 ];
 
