@@ -1,8 +1,6 @@
 ---
 import { processItems } from "../../data/site";
 import Icon from "../ui/Icon.astro";
-
-const stepIcons = ["arrowRight", "estimate", "calendar", "check"] as const;
 ---
 
 <section id="how-it-works" class="bg-white py-16 md:py-24" aria-labelledby="how-it-works-title">
@@ -26,7 +24,7 @@ const stepIcons = ["arrowRight", "estimate", "calendar", "check"] as const;
                 {index + 1}
               </span>
               <span class="flex size-10 items-center justify-center rounded-md bg-white text-green shadow-sm">
-                <Icon name={stepIcons[index]} />
+                <Icon name={item.icon} />
               </span>
             </div>
             <div>
