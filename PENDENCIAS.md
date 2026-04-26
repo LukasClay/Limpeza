@@ -60,8 +60,8 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [x] **Politica de Privacidade** boilerplate em `/privacy` (2026-04-25)
 - [x] **Termos de Servico** boilerplate em `/terms` (2026-04-25)
 - [ ] **Aprovar/revisar** os textos publicados em `src/pages/privacy.astro` e `src/pages/terms.astro`
-- [ ] Confirmar se a empresa tem **LLC ou Inc.** registrada (impacta o copy "fully insured")
-- [ ] Confirmar tipo de seguro real (general liability? bonded?)
+- [ ] Confirmar se a empresa tem **LLC ou Inc.** registrada (impacta qualquer copy juridica/comercial mais forte)
+- [ ] Confirmar tipo de seguro real (general liability? bonded?) antes de voltar com claims como "fully insured"
 - [ ] Atualizar `lastUpdated` em `/privacy` e `/terms` quando alterar os textos
 
 ---
@@ -72,10 +72,10 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [ ] Vai expor **faixa de preco** ("a partir de $X")? Recomendado para reduzir fricca.
 - [ ] Quais **cidades** listar como area de atendimento?
 - [ ] Existe **garantia formal**? Se sim, qual?
-- [ ] Tem **horario de funcionamento** definido? (ajuda no JSON-LD e no copy "responde em 1h")
+- [ ] Tem **horario de funcionamento** definido? (ajuda no JSON-LD e em qualquer copy de tempo de resposta)
 - [ ] Tem **redes sociais** alem do Instagram? (Facebook, Google Business, Yelp, etc.)
 - [ ] Aceita **pagamento online**? Stripe? Zelle? Cash only?
-- [ ] **Tagline final:** manter "Not just clean. ALL PRO clean." ou testar variantes?
+- [ ] **Tagline final:** manter "Not just clean. ALL PRO clean." como slogan secundario ou testar variantes?
 
 ---
 
@@ -132,6 +132,7 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - [x] JSON-LD `BreadcrumbList` em /privacy e /terms (2026-04-25)
 - [x] JSON-LD `FAQPage` com as 9 FAQ items (2026-04-25)
 - [x] JSON-LD `Service` por servico (Weekly, Bi-weekly, Monthly, Move In, Move Out, Post Construction) (2026-04-25)
+- [x] Remover claim "fully insured" nao confirmado da meta description padrao e do `LocalBusiness` JSON-LD da home (branch `audit/part-1-hero-services`)
 - [ ] (Opcional) `<link rel="alternate" hreflang>` se virar bilingue
 
 ### Performance
@@ -168,21 +169,24 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 ## 4. Conteudo / secoes a adicionar
 
 ### Conversao / confianca
-- [ ] **Beneficios** — secao com 4-6 cards (insured, trained team, eco products, free estimate, satisfaction guarantee, bilingual service)
-- [x] **Como Funciona** — secao propria `HowItWorks.astro` com 4 passos visuais (2026-04-25)
+- [x] **Beneficios** — secao `Benefits.astro` com 6 cards seguros, sem claims nao confirmados como seguro/garantia/reviews (branch `audit/part-1-hero-services`)
+- [x] **Como Funciona** — secao propria `HowItWorks.astro` com 4 passos visuais (2026-04-25); copy refinada com titulo + explicacao por passo (branch `audit/part-1-hero-services`)
 - [ ] **Antes / Depois** — galeria com slider ou grid (precisa fotos reais)
-- [x] **FAQ** — 9 perguntas comuns em `src/data/site.ts` (`faqItems`) — generico, revisar (2026-04-25)
+- [x] **FAQ** — 9 perguntas comuns em `src/data/site.ts` (`faqItems`) — revisado para remover promessas nao confirmadas de seguro, garantia, resposta em 1h, pet-safe e cidades (branch `audit/part-1-hero-services`)
 - [ ] **Garantia 100% Satisfacao** — selo visual + texto curto (depende de confirmacao do dono)
-- [x] **Area de Atendimento** — secao com lista de cidades (2026-04-25). Falta confirmar lista real
+- [x] **Area de Atendimento** — secao com lista de cidades (2026-04-25); copy suavizada para pedir ZIP code enquanto lista real nao for confirmada (branch `audit/part-1-hero-services`)
 - [ ] (Opcional) Mapa interativo na secao Area de Atendimento
 - [ ] **Reviews reais** — substituir os trust cards atuais quando reviews chegarem
-- [x] **CTA final reforcado** — `CtaFinal.astro` antes do footer, com 3 canais (WhatsApp, Call, Form) (2026-04-25)
+- [x] **CTA final reforcado** — `CtaFinal.astro` antes do footer, com 3 canais (WhatsApp, Call, Form) (2026-04-25); copy refinada para conversao sem prometer tempo de resposta (branch `audit/part-1-hero-services`)
 
-### Copy a reescrever (precisa aprovacao)
-- [ ] Cards de servico — hoje sao poeticos ("A reliable rhythm…"), trocar por concretos ("Most popular plan. 2-3h on average. Same team when possible.")
-- [ ] Eyebrows e microcopy ("Premium accessible", "ALL PRO Standard", "Fast next step") — algumas sao jargao de brand book sem valor pro cliente
-- [ ] Statement do meio ("Clean spaces. Better living.") — substituir por prova social numerica quando tiver dados
-- [ ] CTA do header — variar ("Free Quote" em vez de "Get Free Estimate" igual em 5 lugares)
+### Copy reescrita nesta branch
+- [x] Hero reescrito para proposta de valor clara em vez de depender apenas do slogan `Not just clean. ALL PRO clean.`
+- [x] Cards de servico reescritos para linguagem mais concreta; `Commercial Cleaning` adicionado como card visivel porque ja existia no formulario
+- [x] Eyebrows e microcopy genericas ajustadas (`Premium accessible`, `ALL PRO Standard`, `Fast next step`, etc.)
+- [x] Statement do meio reescrito para foco em processo claro e proxima etapa
+- [x] About reescrito para parecer menos institucional/generico e mais orientado a clareza, execucao e resultado
+- [x] Contact/form copy refinado sem alterar backend: labels, placeholder, consentimento, sucesso e CTA
+- [ ] CTA do header — variar ou revisar em etapa propria, se necessario
 
 ---
 
@@ -211,16 +215,16 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
 - **Idioma:** EN apenas (decisao do dono, 2026-04-25)
 - **Fluxo de leads:** Form -> Resend (email com Reply-To) + botao "Continue on WhatsApp" no estado de sucesso. WhatsApp tambem como CTA direto em 5 lugares
 - **Anti-spam:** honeypot + rate-limit 30s/IP + validacao server-side + checkbox de consentimento
-- **Paleta:** navy `#0B1F33`, navy-soft `#07172A`, green `#2E7D32`, green-dark `#256628`, green-accent `#2EB872`, whatsapp `#25D366`, mist `#F4F7F8`, muted `#5F6B73`. Disponiveis como tokens Tailwind v4 (`bg-navy`, `text-green`, etc.)
-- **Tipografia:** Cinzel (titulos) + Montserrat (corpo) — Google Fonts CDN por enquanto
+- **Paleta:** navy `#0B1F33`, navy-soft `#07172A`, green `#2E7D32`, green-dark `#256628`, green-accent `#2EB872`, whatsapp `#25D366`, mist `#F4F7F8`, muted `#4A545B`. Disponiveis como tokens Tailwind v4 (`bg-navy`, `text-green`, etc.)
+- **Tipografia:** Cinzel (titulos) + Montserrat (corpo), self-host em `/public/fonts/`
 - **Hover dos botoes verdes:** escurece (`hover:bg-green-dark`) — convencao
 - **Estrutura de pastas:**
-  - `src/data/` — dados estaticos (brand, services, FAQ, cities)
+  - `src/data/` — dados estaticos (brand, services, FAQ, cities, benefits)
   - `src/lib/` — helpers (icons, whatsapp)
   - `src/components/layout/` — Header, Footer
   - `src/components/sections/` — secoes da home
   - `src/components/ui/` — Icon, MobileCTA
   - `src/layouts/` — BaseLayout (head + IntersectionObserver)
-  - `src/pages/` — index, 404, privacy, api/quote
+  - `src/pages/` — index, 404, privacy, terms, thanks, api/quote
   - `src/middleware.ts` — security headers
 - **Imagens:** `<Picture>` do `astro:assets` em hero e about; AVIF + WebP gerados em runtime SSR
