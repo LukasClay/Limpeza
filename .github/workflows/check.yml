@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+env:
+  NPM_CONFIG_LEGACY_PEER_DEPS: true
+
 jobs:
   install:
     runs-on: ubuntu-latest
