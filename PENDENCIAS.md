@@ -120,7 +120,7 @@ Roadmap vivo de tudo que ainda falta para o site sair do "em desenvolvimento" e 
   - Ao pressionar Escape
 - [x] `aria-current` na navegacao via IntersectionObserver — destaca o item da secao em viewport (2026-04-25)
 - [x] Skip-to-content link (`<a href="#main">Skip to content</a>`) no `BaseLayout` (2026-04-25)
-- [ ] Verificar contraste WCAG AAA em todos os textos
+- [x] Auditoria de contraste WCAG (`scripts/wcag-audit.mjs`) — `--color-muted` ajustado de `#5F6B73` para `#4A545B` para passar AAA em texto de corpo (2026-04-25). 1 par fica em FAIL: branco em `#25D366` (botao WhatsApp) — exception aceita por brand recognition; o uso e sempre acompanhado de icone + bold + tamanho grande
 - [ ] Testar com leitor de tela (VoiceOver / NVDA)
 - [ ] Testar navegacao so com teclado
 

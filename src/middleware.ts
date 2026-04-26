@@ -3,6 +3,7 @@ import { defineMiddleware } from "astro:middleware";
 const STATIC_HEADERS: Record<string, string> = {
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "DENY",
+  "X-DNS-Prefetch-Control": "on",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "geolocation=(), camera=(), microphone=(), payment=()",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
