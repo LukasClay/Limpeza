@@ -127,12 +127,26 @@ export const aboutPoints: readonly AboutPoint[] = [
   { icon: "users", title: "Professional" },
 ];
 
-export const processItems = [
-  "Quick request",
-  "Clear estimate",
-  "Professional cleaning",
-  "Fresh, ready space",
-] as const;
+export type ProcessItem = { title: string; text: string };
+
+export const processItems: readonly ProcessItem[] = [
+  {
+    title: "Send your request",
+    text: "Tell us what kind of cleaning you need, where the space is located, and any important details.",
+  },
+  {
+    title: "Get a clear estimate",
+    text: "We review the scope and help you understand the next step before anything is scheduled.",
+  },
+  {
+    title: "Schedule the cleaning",
+    text: "Once the estimate is aligned, the visit is organized around the service your space needs.",
+  },
+  {
+    title: "Enjoy the finished space",
+    text: "Your home, office, or property is left cleaner, fresher, and easier to use.",
+  },
+];
 
 export type TrustCard = { icon: IconName; title: string; text: string };
 
