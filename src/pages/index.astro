@@ -6,6 +6,7 @@ const brand = {
   shortName: "ALL PRO",
   tagline: "Not just clean. ALL PRO clean.",
   statement: "Clean spaces. Better living.",
+  primaryCta: "Get My Free Estimate",
   phoneDisplay: "(617) 955-4047",
   phoneHref: "tel:+16179554047",
   email: "allprocleaninginc1@gmail.com",
@@ -19,17 +20,67 @@ const brand = {
 const navItems = [
   { label: "Services", href: "#services" },
   { label: "About", href: "#about" },
-  { label: "Reviews", href: "#reviews" },
+  { label: "Trust", href: "#trust" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
 const services = [
-  { icon: "sparkles", title: "Weekly Cleaning", label: "Weekly Cleaning", text: "Consistent care for busy homes." },
-  { icon: "refresh", title: "Bi-weekly Cleaning", label: "Bi-weekly Cleaning", text: "A reliable rhythm that keeps your space fresh." },
-  { icon: "calendar", title: "Monthly Cleaning", label: "Monthly Cleaning", text: "A deeper reset for your home or office." },
-  { icon: "key", title: "Move In Cleaning", label: "Move In", text: "Start fresh before the first box opens." },
-  { icon: "home", title: "Move Out Cleaning", label: "Move Out", text: "Leave the space ready for its next use." },
-  { icon: "building", title: "Post Construction", label: "Post Construction", text: "Detailed cleanup after the dust settles." },
+  {
+    icon: "sparkles",
+    title: "Weekly Cleaning",
+    label: "Weekly Cleaning",
+    text: "Keep your home clean without spending your weekends catching up.",
+    ideal: "Busy households",
+    cta: "Estimate weekly cleaning",
+  },
+  {
+    icon: "refresh",
+    title: "Bi-weekly Cleaning",
+    label: "Bi-weekly Cleaning",
+    text: "A reliable routine that keeps rooms ready between deeper resets.",
+    ideal: "Steady upkeep",
+    cta: "Estimate bi-weekly cleaning",
+  },
+  {
+    icon: "calendar",
+    title: "Monthly Cleaning",
+    label: "Monthly Cleaning",
+    text: "A deeper reset for homes or offices that need a periodic refresh.",
+    ideal: "Fresh resets",
+    cta: "Estimate monthly cleaning",
+  },
+  {
+    icon: "key",
+    title: "Move In Cleaning",
+    label: "Move In",
+    text: "Start with a clean space before furniture and boxes take over.",
+    ideal: "New homes and apartments",
+    cta: "Estimate move-in cleaning",
+  },
+  {
+    icon: "home",
+    title: "Move Out Cleaning",
+    label: "Move Out",
+    text: "Leave the property ready for inspection, listing, or the next tenant.",
+    ideal: "Tenants, landlords, property managers",
+    cta: "Estimate move-out cleaning",
+  },
+  {
+    icon: "building",
+    title: "Post Construction",
+    label: "Post Construction",
+    text: "Remove dust, debris, and residue after renovation work.",
+    ideal: "Renovations and builds",
+    cta: "Estimate post-construction cleaning",
+  },
+  {
+    icon: "building",
+    title: "Commercial Cleaning",
+    label: "Commercial Cleaning",
+    text: "Keep client-facing and team spaces presentable with a clear cleaning plan.",
+    ideal: "Offices and small businesses",
+    cta: "Estimate commercial cleaning",
+  },
 ] as const;
 
 const serviceOptions = [
@@ -43,9 +94,9 @@ const serviceOptions = [
 ] as const;
 
 const trustBar = [
-  { icon: "shield", title: "Fully Insured", text: "Professional coverage" },
-  { icon: "estimate", title: "Free Estimates", text: "Clear next step" },
-  { icon: "home", title: "Residential & Commercial", text: "Homes, offices, and businesses" },
+  { icon: "estimate", title: "Clear Estimates", text: "No confusing back-and-forth" },
+  { icon: "clock", title: "Simple Scheduling", text: "Know what happens next" },
+  { icon: "home", title: "Homes & Businesses", text: "Residential and commercial" },
   { icon: "map", title: "Serving Massachusetts", text: "Local service area" },
 ] as const;
 
@@ -57,10 +108,30 @@ const aboutPoints = [
 ] as const;
 
 const processItems = [
-  "Quick request",
-  "Clear estimate",
-  "Professional cleaning",
-  "Fresh, ready space",
+  {
+    title: "Request",
+    text: "Send your service type, ZIP Code, and a few details.",
+  },
+  {
+    title: "Estimate",
+    text: "Get a clear next step without confusing back-and-forth.",
+  },
+  {
+    title: "Schedule",
+    text: "Choose the best visit window for your home or business.",
+  },
+  {
+    title: "Clean Space",
+    text: "Enjoy a space that feels ready again.",
+  },
+] as const;
+
+const bestFor = [
+  { icon: "refresh", title: "Busy routine", text: "Weekly or bi-weekly cleaning keeps your home consistently fresh." },
+  { icon: "sparkles", title: "Fresh reset", text: "Monthly cleaning helps restore order when the space needs deeper attention." },
+  { icon: "key", title: "Moving day", text: "Move-in and move-out cleaning make handoff feel simpler." },
+  { icon: "building", title: "After renovation", text: "Post-construction cleanup helps remove dust and surface buildup." },
+  { icon: "home", title: "Business space", text: "Commercial cleaning keeps offices and shared areas ready for people." },
 ] as const;
 
 const trustCards = [
@@ -110,6 +181,13 @@ const localBusinessSchema = {
   logo: brand.logo,
   image: brand.heroImage,
   sameAs: [brand.instagramHref],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: brand.phoneDisplay,
+    contactType: "customer service",
+    areaServed: "US-MA",
+    availableLanguage: ["English", "Portuguese"],
+  },
   areaServed: {
     "@type": "AdministrativeArea",
     name: "Massachusetts",
@@ -121,9 +199,26 @@ const localBusinessSchema = {
     "Move Out Cleaning",
     "Post Construction Cleaning",
   ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Cleaning services",
+    itemListElement: services.map((service) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: service.title,
+        description: service.text,
+        areaServed: "Massachusetts",
+      },
+    })),
+  },
   description:
     "Professional residential and commercial cleaning services in Massachusetts. Fully insured, reliable, and available for weekly, bi-weekly, monthly, move-in, move-out, and post-construction cleaning.",
 };
+
+const pageTitle = "ALL PRO Cleaning Services | Residential & Commercial Cleaning in Massachusetts";
+const pageDescription =
+  "Professional residential and commercial cleaning services in Massachusetts. Fully insured, reliable, and available for weekly, bi-weekly, monthly, move-in, move-out, and post-construction cleaning.";
 ---
 
 <!doctype html>
@@ -133,8 +228,16 @@ const localBusinessSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Professional residential and commercial cleaning services in Massachusetts. Fully insured, reliable, and available for weekly, bi-weekly, monthly, move-in, move-out, and post-construction cleaning."
+      content={pageDescription}
     />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={brand.heroImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={brand.heroImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -142,9 +245,10 @@ const localBusinessSchema = {
       rel="stylesheet"
     />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
-    <title>ALL PRO Cleaning Services | Residential & Commercial Cleaning in Massachusetts</title>
+    <title>{pageTitle}</title>
   </head>
   <body class="antialiased">
+    <a class="skip-link" href="#home">Skip to content</a>
     <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-[0_1px_18px_rgba(15,23,42,0.06)] backdrop-blur-xl">
       <div class="section-shell flex h-16 items-center justify-between gap-3 md:h-[72px] md:gap-4">
         <a href="#home" class="flex items-center gap-3" aria-label={`${brand.name} home`}>
@@ -167,7 +271,7 @@ const localBusinessSchema = {
             href="#contact"
             class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#2E7D32] px-5 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(46,125,50,0.24)] transition hover:-translate-y-0.5 hover:bg-[#2EB872]"
           >
-            Get Free Estimate
+            {brand.primaryCta}
           </a>
         </div>
 
@@ -179,7 +283,7 @@ const localBusinessSchema = {
           <div class="absolute right-0 top-12 w-[min(86vw,320px)] rounded-lg border border-slate-200 bg-white p-3 shadow-2xl md:top-14">
             {navItems.map((item) => <a class="block rounded-md px-4 py-3 text-sm font-bold text-[#0B1F33] hover:bg-[#F4F7F8]" href={item.href}>{item.label}</a>)}
             <a class="mt-2 flex min-h-12 items-center justify-center rounded-md bg-[#2E7D32] px-4 text-sm font-extrabold text-white" href="#contact">
-              Get Free Estimate
+              {brand.primaryCta}
             </a>
           </div>
         </details>
@@ -192,16 +296,17 @@ const localBusinessSchema = {
         <div class="section-shell relative grid gap-10 py-10 sm:py-12 md:grid-cols-[0.92fr_1.08fr] md:py-16 lg:min-h-[calc(100svh-72px)] lg:py-20">
           <div class="reveal max-w-2xl text-white">
             <p class="inline-flex rounded-md border border-white/15 bg-white/10 px-3 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#d8ead3]">
-              Residential & Commercial Cleaning
+              {brand.tagline}
             </p>
             <h1 class="mt-5 text-[clamp(2.35rem,9.2vw,4.4rem)] font-bold leading-[1.04] md:mt-6 md:text-6xl lg:text-7xl">
-              Not just clean. ALL PRO clean.
+              Reliable Cleaning Services in Massachusetts
             </h1>
             <p class="mt-5 max-w-xl text-base leading-7 text-slate-100 sm:text-lg md:mt-6 md:text-xl md:leading-8">
-              Reliable residential and commercial cleaning across Massachusetts.
+              Professional residential, commercial, move-in, move-out, and post-construction
+              cleaning with clear estimates and simple scheduling.
             </p>
             <p class="mt-3 max-w-xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
-              Professional cleaning for homes, offices, move-ins, move-outs, and post-construction spaces.
+              Tell us what you need, get a clear next step, and schedule your cleaning without messy communication.
             </p>
 
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -209,7 +314,7 @@ const localBusinessSchema = {
                 href="#contact"
                 class="inline-flex min-h-[52px] items-center justify-center rounded-md bg-[#2E7D32] px-5 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(46,125,50,0.28)] transition hover:-translate-y-0.5 hover:bg-[#2EB872] sm:px-7"
               >
-                Get Free Estimate
+                {brand.primaryCta}
               </a>
               <a
                 href={brand.phoneHref}
@@ -220,7 +325,7 @@ const localBusinessSchema = {
             </div>
 
             <div class="mt-8 grid gap-3 text-sm font-bold text-slate-100 sm:grid-cols-3">
-              {["Fully Insured", "Free Estimates", "Serving Massachusetts"].map((item) => (
+              {["Clear Estimates", "Simple Scheduling", "Fully Insured"].map((item) => (
                 <div class="flex items-center gap-2 rounded-md border border-white/[0.12] bg-white/[0.08] px-3 py-3">
                   <span class="flex size-6 items-center justify-center rounded-full bg-[#2EB872]/20 text-[#d8ead3]">
                     <svg aria-hidden="true" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -273,7 +378,7 @@ const localBusinessSchema = {
 
             <div class="mt-4 rounded-lg bg-white p-4 shadow-2xl ring-1 ring-slate-200 lg:ml-8 lg:w-72">
               <p class="text-xs font-extrabold uppercase tracking-[0.16em] text-[#2E7D32]">Fast next step</p>
-              <p class="mt-1 text-lg font-bold text-[#0B1F33]">Free estimate by phone or form</p>
+              <p class="mt-1 text-lg font-bold text-[#0B1F33]">Tell us what you need. We guide the next step.</p>
             </div>
           </div>
         </div>
@@ -307,8 +412,8 @@ const localBusinessSchema = {
               <h2 class="mt-3 text-3xl font-bold leading-tight text-[#0B1F33] sm:text-4xl md:text-5xl">Residential & Commercial Cleaning Services</h2>
             </div>
             <p class="max-w-2xl text-base leading-7 text-[#5F6B73] sm:text-lg sm:leading-8 md:justify-self-end">
-              Professional cleaning for every kind of space, with a consistent standard from first
-              contact to final walkthrough.
+              Cleaning for homes, offices, moves, and post-construction spaces handled with one
+              clear process.
             </p>
           </div>
 
@@ -328,6 +433,38 @@ const localBusinessSchema = {
                   </div>
                   <h3 class="mt-7 text-2xl font-bold text-[#0B1F33]">{service.title}</h3>
                   <p class="mt-3 leading-7 text-[#5F6B73]">{service.text}</p>
+                  <p class="mt-5 text-sm text-[#5F6B73]">
+                    <span class="font-extrabold text-[#0B1F33]">Ideal for:</span> {service.ideal}
+                  </p>
+                  <a class="mt-6 inline-flex text-sm font-extrabold text-[#2E7D32] transition hover:text-[#0B1F33]" href="#contact">
+                    {service.cta}
+                  </a>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white py-16 md:py-20" aria-labelledby="best-for-title">
+        <div class="section-shell">
+          <div class="max-w-3xl">
+            <p class="eyebrow">Best For</p>
+            <h2 id="best-for-title" class="mt-3 text-3xl font-bold leading-tight text-[#0B1F33] sm:text-4xl md:text-5xl">
+              Choose the cleaning that fits your moment.
+            </h2>
+          </div>
+          <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {
+              bestFor.map((item) => (
+                <article class="rounded-lg border border-slate-200 bg-[#F4F7F8] p-5">
+                  <div class="flex size-10 items-center justify-center rounded-md bg-white text-[#2E7D32] shadow-sm">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      {iconPaths[item.icon].map((path) => <path d={path} />)}
+                    </svg>
+                  </div>
+                  <h3 class="mt-5 text-lg font-bold text-[#0B1F33]">{item.title}</h3>
+                  <p class="mt-3 text-sm leading-6 text-[#5F6B73]">{item.text}</p>
                 </article>
               ))
             }
@@ -349,7 +486,7 @@ const localBusinessSchema = {
             href="#contact"
             class="inline-flex min-h-12 items-center justify-center rounded-md bg-white px-6 text-base font-extrabold text-[#0B1F33] transition hover:-translate-y-0.5 hover:bg-[#F4F7F8]"
           >
-            Get Free Estimate
+            {brand.primaryCta}
           </a>
         </div>
       </section>
@@ -398,14 +535,16 @@ const localBusinessSchema = {
         </div>
       </section>
 
-      <section id="reviews" class="bg-[#F4F7F8] py-16 md:py-24" aria-labelledby="reviews-title">
+      <section id="trust" class="bg-[#F4F7F8] py-16 md:py-24" aria-labelledby="trust-title">
         <div class="section-shell">
           <div class="max-w-3xl">
             <p class="eyebrow">Trust</p>
-            <h2 id="reviews-title" class="mt-3 text-3xl font-bold leading-tight text-[#0B1F33] sm:text-4xl md:text-5xl">
+            <h2 id="trust-title" class="mt-3 text-3xl font-bold leading-tight text-[#0B1F33] sm:text-4xl md:text-5xl">
               Trusted by local homeowners and businesses.
             </h2>
-            <p class="mt-4 text-lg text-[#5F6B73]">Testimonials coming soon.</p>
+            <p class="mt-4 text-lg text-[#5F6B73]">
+              Reliable, insured cleaning for homes and businesses across Massachusetts.
+            </p>
           </div>
 
           <div class="mt-12 grid gap-4 lg:grid-cols-3">
@@ -432,15 +571,18 @@ const localBusinessSchema = {
             <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-[#d8ead3]">Get started</p>
             <h2 class="mt-3 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">Request Your Free Estimate</h2>
             <p class="mt-5 text-base leading-7 text-slate-100 sm:text-lg sm:leading-8">
-              A focused final step for visitors who are ready to compare options, schedule a
-              cleaning, or simply ask what the first visit would look like.
+              No pressure. No confusing quote process. Tell us what you need and we will guide
+              the next step.
             </p>
             <div class="mt-8 grid gap-3">
               {
                 processItems.map((item, index) => (
-                  <div class="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.08] px-4 py-3">
+                  <div class="flex items-start gap-3 rounded-md border border-white/10 bg-white/[0.08] px-4 py-3">
                     <span class="flex size-8 items-center justify-center rounded-full bg-[#2E7D32] text-sm font-extrabold text-white">{index + 1}</span>
-                    <span class="font-bold">{item}</span>
+                    <span>
+                      <strong class="block">{item.title}</strong>
+                      <span class="mt-1 block text-sm leading-6 text-slate-200">{item.text}</span>
+                    </span>
                   </div>
                 ))
               }
@@ -448,37 +590,69 @@ const localBusinessSchema = {
           </div>
 
           <form class="reveal grid gap-4 rounded-lg bg-white p-5 text-[#0B1F33] shadow-[0_34px_90px_rgba(2,8,23,0.32)] md:grid-cols-2 md:p-8" aria-label="Free estimate form">
-            <label class="grid gap-2 text-sm font-bold">
-              Name
-              <input class="field" type="text" name="name" autocomplete="name" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold">
-              Phone
-              <input class="field" type="tel" name="phone" autocomplete="tel" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold">
-              Email
-              <input class="field" type="email" name="email" autocomplete="email" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold">
-              ZIP Code
-              <input class="field" type="text" name="zip" inputmode="numeric" autocomplete="postal-code" required />
-            </label>
-            <label class="grid gap-2 text-sm font-bold md:col-span-2">
-              Service Type
-              <select class="field" name="service">
-                {serviceOptions.map((service) => <option>{service}</option>)}
-              </select>
-            </label>
-            <label class="grid gap-2 text-sm font-bold md:col-span-2">
-              Message
-              <textarea class="field min-h-32 py-3" name="message"></textarea>
-            </label>
+            <div class="hp-field" aria-hidden="true">
+              <label>
+                Website
+                <input type="text" name="website" tabindex="-1" autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="rounded-lg border border-slate-200 bg-[#F4F7F8] p-4 md:col-span-2">
+              <p class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#2E7D32]">Step 1 - Your contact</p>
+              <div class="mt-4 grid gap-4 md:grid-cols-3">
+                <label class="grid gap-2 text-sm font-bold">
+                  Name
+                  <input class="field" type="text" name="name" autocomplete="name" required />
+                </label>
+                <label class="grid gap-2 text-sm font-bold">
+                  Phone
+                  <input class="field" type="tel" name="phone" autocomplete="tel" required />
+                </label>
+                <label class="grid gap-2 text-sm font-bold">
+                  <span>Email <span class="font-medium text-slate-500">(optional)</span></span>
+                  <input class="field" type="email" name="email" autocomplete="email" />
+                </label>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-slate-200 bg-white p-4 md:col-span-2">
+              <p class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#2E7D32]">Step 2 - Your cleaning</p>
+              <div class="mt-4 grid gap-4 md:grid-cols-[0.62fr_1.38fr]">
+                <label class="grid gap-2 text-sm font-bold">
+                  ZIP Code
+                  <input class="field" type="text" name="zip" inputmode="numeric" autocomplete="postal-code" required />
+                </label>
+                <div class="grid gap-2 text-sm font-bold">
+                  Service Type
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    {
+                      serviceOptions.map((service, index) => (
+                        <label class="cursor-pointer">
+                          <input class="peer sr-only" type="radio" name="service" value={service} required={index === 0} checked={index === 0} />
+                          <span class="block rounded-md border border-slate-200 bg-white px-3 py-3 text-sm font-extrabold text-[#0B1F33] transition hover:border-[#2E7D32] peer-checked:border-[#2E7D32] peer-checked:bg-[#F4F7F8] peer-checked:text-[#2E7D32] peer-focus-visible:ring-4 peer-focus-visible:ring-[#2E7D32]/20">
+                            {service}
+                          </span>
+                        </label>
+                      ))
+                    }
+                  </div>
+                </div>
+              </div>
+              <label class="mt-4 grid gap-2 text-sm font-bold">
+                <span>Details <span class="font-medium text-slate-500">(optional)</span></span>
+                <textarea class="field min-h-32 py-3" name="message" placeholder="Anything we should know?"></textarea>
+              </label>
+            </div>
+
+            <div class="rounded-lg border border-slate-200 bg-[#F4F7F8] p-4 md:col-span-2">
+              <p class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#2E7D32]">Step 3 - Send request</p>
+              <p class="mt-2 text-sm leading-6 text-[#5F6B73]">Usually takes less than 1 minute.</p>
+            </div>
             <button
               type="submit"
               class="min-h-[52px] rounded-md bg-[#2E7D32] px-6 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(46,125,50,0.25)] transition hover:-translate-y-0.5 hover:bg-[#2EB872] md:col-span-2"
             >
-              Get My Free Estimate
+              {brand.primaryCta}
             </button>
             <p class="text-center text-xs text-slate-500 md:col-span-2">
               Prefer to talk now? Call <a class="font-bold text-[#0B1F33]" href={brand.phoneHref}>{brand.phoneDisplay}</a>
@@ -496,7 +670,7 @@ const localBusinessSchema = {
           <div class="mt-6">
             <p class="font-bold text-white">Ready for a cleaner space?</p>
             <a class="mt-3 inline-flex min-h-11 items-center justify-center rounded-md bg-[#2E7D32] px-5 text-sm font-extrabold text-white transition hover:bg-[#2EB872]" href="#contact">
-              Get Free Estimate
+              {brand.primaryCta}
             </a>
           </div>
         </div>
@@ -532,7 +706,7 @@ const localBusinessSchema = {
         href="#contact"
         class="flex min-h-14 items-center justify-center rounded-md bg-white text-sm font-extrabold text-[#0B1F33] shadow-2xl"
       >
-        Free Estimate
+        Estimate
       </a>
     </div>
   </body>

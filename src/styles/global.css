@@ -52,6 +52,24 @@ textarea {
   outline-offset: 3px;
 }
 
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  border-radius: 0.375rem;
+  background: var(--navy);
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  font-weight: 800;
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .section-shell {
   width: min(1120px, calc(100% - clamp(24px, 6vw, 40px)));
   margin-inline: auto;
@@ -87,6 +105,15 @@ textarea {
   border-color: var(--green);
   box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.16);
   outline: none;
+}
+
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .mobile-menu summary::-webkit-details-marker {
