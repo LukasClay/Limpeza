@@ -1,0 +1,137 @@
+---
+import { brand } from "../../data/brand";
+import { navItems } from "../../data/site";
+import { whatsappDefaultUrl } from "../../lib/whatsapp";
+import Icon from "../ui/Icon.astro";
+---
+
+<header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-[0_1px_18px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+  <div class="section-shell flex h-16 items-center justify-between gap-3 md:h-[72px] md:gap-4">
+    <a href="/" class="flex items-center gap-3" aria-label={`${brand.name} home`}>
+      <img src={brand.logo} alt={brand.name} class="h-10 w-auto mix-blend-multiply md:h-12" width="240" height="220" />
+    </a>
+
+    <nav class="hidden items-center gap-8 text-sm font-bold text-navy lg:flex" aria-label="Primary navigation" data-primary-nav>
+      {navItems.map((item) => (
+        <a
+          class="relative transition hover:text-green aria-[current=true]:text-green aria-[current=true]:after:absolute aria-[current=true]:after:-bottom-1.5 aria-[current=true]:after:left-0 aria-[current=true]:after:h-0.5 aria-[current=true]:after:w-full aria-[current=true]:after:bg-green"
+          href={item.href}
+          data-nav-link={item.href.includes("#") ? item.href.split("#")[1] : null}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="hidden items-center gap-2 md:flex">
+      <a
+        class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 px-3 text-sm font-extrabold text-navy transition hover:border-navy"
+        href={brand.phoneHref}
+        aria-label={`Call ${brand.name} at ${brand.phoneDisplay}`}
+      >
+        Call
+      </a>
+      <a
+        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-whatsapp/40 bg-whatsapp/10 px-3 text-sm font-extrabold text-navy transition hover:bg-whatsapp/20"
+        href={whatsappDefaultUrl}
+        target="_blank"
+        rel="noopener"
+        aria-label="Chat on WhatsApp"
+      >
+        <Icon name="whatsapp" class="size-4 text-whatsapp" strokeWidth={2} />
+        WhatsApp
+      </a>
+      <a
+        href="/#contact"
+        class="hover-lift inline-flex min-h-11 items-center justify-center rounded-md bg-green px-4 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(46,125,50,0.24)] transition hover:-translate-y-0.5 hover:bg-green-dark"
+      >
+        {brand.primaryCta}
+      </a>
+    </div>
+
+    <details id="mobile-menu" class="mobile-menu relative lg:hidden">
+      <summary class="flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-slate-200 text-navy">
+        <span class="sr-only">Open menu</span>
+        <span class="block h-0.5 w-5 bg-current before:relative before:-top-1.5 before:block before:h-0.5 before:bg-current after:relative after:top-1 after:block after:h-0.5 after:bg-current"></span>
+      </summary>
+      <div class="absolute right-0 top-12 w-[min(86vw,320px)] rounded-lg border border-slate-200 bg-white p-3 shadow-2xl md:top-14">
+        {navItems.map((item) => <a class="block rounded-md px-4 py-3 text-sm font-bold text-navy hover:bg-mist" href={item.href}>{item.label}</a>)}
+        <a class="mt-2 flex min-h-12 items-center justify-center rounded-md bg-green px-4 text-sm font-extrabold text-white" href="/#contact">
+          {brand.primaryCta}
+        </a>
+      </div>
+    </details>
+  </div>
+</header>
+
+<script>
+  const menu = document.getElementById("mobile-menu") as HTMLDetailsElement | null;
+  if (menu) {
+    const close = () => {
+      menu.open = false;
+    };
+    menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+    document.addEventListener("click", (event) => {
+      if (!menu.open) return;
+      if (!menu.contains(event.target as Node)) close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") close();
+    });
+  }
+
+  // Mark the nav link whose section is currently in view as aria-current.
+  const navLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
+  );
+  const sectionToLinks = new Map<string, HTMLAnchorElement[]>();
+  for (const link of navLinks) {
+    const id = link.dataset.navLink;
+    if (!id) continue;
+    const list = sectionToLinks.get(id) ?? [];
+    list.push(link);
+    sectionToLinks.set(id, list);
+  }
+
+  const sections = Array.from(sectionToLinks.keys())
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (sections.length > 0) {
+    const visible = new Set<string>();
+    const update = () => {
+      let activeId: string | null = null;
+      let topMost = Number.POSITIVE_INFINITY;
+      for (const id of visible) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top;
+        if (top < topMost) {
+          topMost = top;
+          activeId = id;
+        }
+      }
+      for (const [id, links] of sectionToLinks) {
+        const isActive = id === activeId;
+        for (const link of links) {
+          if (isActive) link.setAttribute("aria-current", "true");
+          else link.removeAttribute("aria-current");
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          if (entry.isIntersecting) visible.add(id);
+          else visible.delete(id);
+        }
+        update();
+      },
+      { rootMargin: "-30% 0px -50% 0px", threshold: 0 },
+    );
+
+    for (const section of sections) observer.observe(section);
+  }
+</script>

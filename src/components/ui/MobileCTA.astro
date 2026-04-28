@@ -1,0 +1,31 @@
+---
+import { brand } from "../../data/brand";
+import { whatsappDefaultUrl } from "../../lib/whatsapp";
+import Icon from "../ui/Icon.astro";
+---
+
+<div class="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 grid grid-cols-3 gap-2 md:hidden">
+  <a
+    href={whatsappDefaultUrl}
+    target="_blank"
+    rel="noopener"
+    class="flex min-h-14 items-center justify-center gap-1.5 rounded-md bg-whatsapp text-sm font-extrabold text-white shadow-2xl"
+    aria-label="Chat on WhatsApp"
+  >
+    <Icon name="whatsapp" class="size-4" strokeWidth={2} />
+    WhatsApp
+  </a>
+  <a
+    href={brand.phoneHref}
+    class="flex min-h-14 items-center justify-center rounded-md bg-green text-sm font-extrabold text-white shadow-2xl"
+    aria-label={`Call ${brand.name} now`}
+  >
+    Call
+  </a>
+  <a
+    href="/#contact"
+    class="flex min-h-14 items-center justify-center rounded-md bg-white text-sm font-extrabold text-navy shadow-2xl"
+  >
+    Estimate
+  </a>
+</div>

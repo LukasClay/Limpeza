@@ -1,0 +1,57 @@
+---
+import { brand } from "../../data/brand";
+import { navItems } from "../../data/site";
+import { whatsappDefaultUrl } from "../../lib/whatsapp";
+import Icon from "../ui/Icon.astro";
+---
+
+<footer class="bg-navy-soft pb-28 pt-12 text-white md:pb-12">
+  <div class="section-shell grid gap-10 lg:grid-cols-[0.85fr_1.15fr_0.9fr]">
+    <div>
+      <img src={brand.logo} alt={brand.name} class="h-20 w-auto rounded-md bg-white p-2" width="240" height="220" loading="lazy" />
+      <p class="mt-4 max-w-sm text-sm leading-6 text-slate-300">{brand.tagline}</p>
+      <div class="mt-6">
+        <p class="font-bold text-white">Ready for a cleaner space?</p>
+        <a class="mt-3 inline-flex min-h-11 items-center justify-center rounded-md bg-green px-5 text-sm font-extrabold text-white transition hover:bg-green-dark" href="/#contact">
+          {brand.primaryCta}
+        </a>
+      </div>
+    </div>
+    <div class="grid gap-4 text-sm text-slate-200 sm:grid-cols-2">
+      <p>
+        <span class="block font-bold text-white">Phone</span>
+        <a class="transition hover:text-white" href={brand.phoneHref}>{brand.phoneDisplay}</a>
+      </p>
+      <p class="break-words">
+        <span class="block font-bold text-white">WhatsApp</span>
+        <a class="inline-flex items-center gap-1 transition hover:text-white" href={whatsappDefaultUrl} target="_blank" rel="noopener">
+          <Icon name="whatsapp" class="size-3.5 text-whatsapp" strokeWidth={2} />
+          Chat now
+        </a>
+      </p>
+      <p class="break-words">
+        <span class="block font-bold text-white">Email</span>
+        <a class="transition hover:text-white" href={`mailto:${brand.email}`}>{brand.email}</a>
+      </p>
+      <p class="break-words">
+        <span class="block font-bold text-white">Instagram</span>
+        <a class="transition hover:text-white" href={brand.instagramHref} target="_blank" rel="noopener">{brand.instagram}</a>
+      </p>
+      <p><span class="block font-bold text-white">Service Area</span> Massachusetts</p>
+    </div>
+    <nav class="grid gap-2 text-sm" aria-label="Footer navigation">
+      {navItems.map((item) => <a class="text-slate-300 transition hover:text-white" href={item.href}>{item.label}</a>)}
+      <span class="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-green-accent">Services</span>
+      <a class="text-slate-300 transition hover:text-white" href="/#services">Residential Cleaning</a>
+      <a class="text-slate-300 transition hover:text-white" href="/#services">Commercial Cleaning</a>
+      <a class="text-slate-300 transition hover:text-white" href="/#services">Move In / Move Out</a>
+      <a class="text-slate-300 transition hover:text-white" href="/#services">Post Construction</a>
+      <span class="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-green-accent">Legal</span>
+      <a class="text-slate-300 transition hover:text-white" href="/privacy">Privacy Policy</a>
+      <a class="text-slate-300 transition hover:text-white" href="/terms">Terms of Service</a>
+    </nav>
+  </div>
+  <div class="section-shell mt-10 border-t border-white/10 pt-6 text-xs text-slate-400">
+    &copy; {new Date().getFullYear()} ALL PRO Cleaning Services. Residential and commercial cleaning in Massachusetts.
+  </div>
+</footer>

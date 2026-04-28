@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import MobileCTA from "../components/ui/MobileCTA.astro";
+import { whatsappDefaultUrl } from "../lib/whatsapp";
+import { brand } from "../data/brand";
+---
+
+<BaseLayout
+  title="Page not found | ALL PRO Cleaning Services"
+  description="The page you are looking for does not exist."
+  noindex
+>
+  <Header />
+  <main id="main" class="flex min-h-[calc(100svh-72px)] items-center bg-mist pt-16 md:pt-[72px]">
+    <div class="section-shell py-20 text-center">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="mt-3 text-4xl font-bold text-navy sm:text-5xl md:text-6xl">
+        We couldn't find that page.
+      </h1>
+      <p class="mx-auto mt-5 max-w-xl text-base leading-7 text-muted sm:text-lg">
+        The link may be broken or the page may have moved. Want help right away? Reach out below.
+      </p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a
+          href="/"
+          class="hover-lift inline-flex min-h-12 items-center justify-center rounded-md bg-green px-6 text-base font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-green-dark"
+        >
+          Back to home
+        </a>
+        <a
+          href={whatsappDefaultUrl}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex min-h-12 items-center justify-center rounded-md border border-slate-300 bg-white px-6 text-base font-extrabold text-navy transition hover:border-navy"
+        >
+          Message us on WhatsApp
+        </a>
+        <a
+          href={brand.phoneHref}
+          class="inline-flex min-h-12 items-center justify-center rounded-md border border-slate-300 bg-white px-6 text-base font-extrabold text-navy transition hover:border-navy"
+        >
+          Call {brand.phoneDisplay}
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+  <MobileCTA />
+</BaseLayout>

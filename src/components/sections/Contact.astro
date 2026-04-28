@@ -1,0 +1,288 @@
+---
+import { brand } from "../../data/brand";
+import { serviceOptions } from "../../data/site";
+import { whatsappDefaultUrl } from "../../lib/whatsapp";
+import Icon from "../ui/Icon.astro";
+---
+
+<section id="contact" class="bg-navy pb-28 pt-16 text-white md:py-24">
+  <div class="section-shell">
+    <div class="reveal max-w-3xl">
+      <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-[#d8ead3]">Get started</p>
+      <h2 class="mt-3 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">Request a Clear Cleaning Estimate</h2>
+      <p class="mt-5 text-base leading-7 text-slate-100 sm:text-lg sm:leading-8">
+        Tell us what type of cleaning you need, where you are located, and any important details about the space. We will help you understand the next step.
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-3 sm:grid-cols-3">
+      <a
+        href={whatsappDefaultUrl}
+        target="_blank"
+        rel="noopener"
+        class="reveal flex items-center gap-4 rounded-lg border border-white/10 bg-white/[0.06] p-4 transition hover:border-whatsapp/60 hover:bg-white/[0.1]"
+      >
+        <span class="flex size-11 shrink-0 items-center justify-center rounded-md bg-whatsapp/15 text-whatsapp">
+          <Icon name="whatsapp" strokeWidth={2} />
+        </span>
+        <span class="min-w-0">
+          <span class="block text-xs font-extrabold uppercase tracking-[0.14em] text-[#d8ead3]">WhatsApp</span>
+          <span class="mt-1 block truncate text-base font-bold text-white">Send a quick message</span>
+        </span>
+      </a>
+      <a
+        href={brand.phoneHref}
+        class="reveal flex items-center gap-4 rounded-lg border border-white/10 bg-white/[0.06] p-4 transition hover:border-white/30 hover:bg-white/[0.1]"
+      >
+        <span class="flex size-11 shrink-0 items-center justify-center rounded-md bg-white/10 text-white">
+          <Icon name="phone" strokeWidth={2} />
+        </span>
+        <span class="min-w-0">
+          <span class="block text-xs font-extrabold uppercase tracking-[0.14em] text-[#d8ead3]">Call</span>
+          <span class="mt-1 block truncate text-base font-bold text-white">{brand.phoneDisplay}</span>
+        </span>
+      </a>
+      <a
+        href={`mailto:${brand.email}`}
+        class="reveal flex items-center gap-4 rounded-lg border border-white/10 bg-white/[0.06] p-4 transition hover:border-white/30 hover:bg-white/[0.1]"
+      >
+        <span class="flex size-11 shrink-0 items-center justify-center rounded-md bg-white/10 text-white">
+          <Icon name="mail" strokeWidth={2} />
+        </span>
+        <span class="min-w-0">
+          <span class="block text-xs font-extrabold uppercase tracking-[0.14em] text-[#d8ead3]">Email</span>
+          <span class="mt-1 block truncate text-base font-bold text-white">{brand.email}</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="mt-12">
+      <div class="reveal relative mx-auto max-w-3xl">
+        <form
+          id="estimate-form"
+          action="/api/quote"
+          method="POST"
+          class="grid gap-4 rounded-lg bg-white p-5 text-navy shadow-[0_34px_90px_rgba(2,8,23,0.32)] md:grid-cols-2 md:p-8"
+          aria-label="Free estimate form"
+          novalidate
+        >
+          <div class="hp-field" aria-hidden="true">
+            <label>
+              Website
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </label>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 bg-mist p-4 md:col-span-2">
+            <p class="text-xs font-extrabold uppercase tracking-[0.14em] text-green">Step 1 - Your contact</p>
+            <div class="mt-4 grid gap-4 md:grid-cols-3">
+              <label class="grid gap-2 text-sm font-bold">
+                Full Name
+                <input class="field" type="text" name="name" autocomplete="name" required minlength="2" />
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Phone Number
+                <input class="field" type="tel" name="phone" autocomplete="tel" required minlength="7" />
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Email Address
+                <input class="field" type="email" name="email" autocomplete="email" required />
+              </label>
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 bg-white p-4 md:col-span-2">
+            <p class="text-xs font-extrabold uppercase tracking-[0.14em] text-green">Step 2 - Your cleaning</p>
+            <div class="mt-4 grid gap-4 md:grid-cols-[0.62fr_1.38fr]">
+              <label class="grid gap-2 text-sm font-bold">
+                ZIP Code
+                <input class="field" type="text" name="zip" inputmode="numeric" autocomplete="postal-code" required pattern="[0-9]{5}" maxlength="5" />
+              </label>
+              <div class="grid gap-2 text-sm font-bold">
+                Cleaning Service
+                <div class="grid gap-2 sm:grid-cols-2">
+                  {
+                    serviceOptions.map((service, index) => (
+                      <label class="cursor-pointer">
+                        <input class="peer sr-only" type="radio" name="service" value={service} required={index === 0} checked={index === 0} />
+                        <span class="block rounded-md border border-slate-200 bg-white px-3 py-3 text-sm font-extrabold text-navy transition hover:border-green peer-checked:border-green peer-checked:bg-mist peer-checked:text-green peer-focus-visible:ring-4 peer-focus-visible:ring-green/20">
+                          {service}
+                        </span>
+                      </label>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+            <label class="mt-4 grid gap-2 text-sm font-bold">
+              <span>Cleaning Details <span class="font-normal text-slate-500">(optional)</span></span>
+              <textarea class="field min-h-32 py-3" name="message" placeholder="Anything we should know?"></textarea>
+            </label>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 bg-mist p-4 md:col-span-2">
+            <p class="text-xs font-extrabold uppercase tracking-[0.14em] text-green">Step 3 - Send request</p>
+            <p class="mt-2 text-sm leading-6 text-muted">Usually takes less than 1 minute.</p>
+          </div>
+
+          <label class="flex items-start gap-3 text-xs leading-5 text-slate-600 md:col-span-2">
+            <input type="checkbox" name="consent" required class="mt-0.5 size-4 shrink-0 accent-green" />
+            <span>
+              I agree to be contacted about my estimate request. See our <a class="font-bold text-navy hover:underline" href="/privacy">privacy policy</a>.
+            </span>
+          </label>
+
+          <button
+            type="submit"
+            data-submit
+            class="hover-lift min-h-[52px] rounded-md bg-green px-6 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(46,125,50,0.25)] transition hover:-translate-y-0.5 hover:bg-green-dark disabled:cursor-not-allowed disabled:opacity-70 md:col-span-2"
+          >
+            <span data-submit-label>{brand.primaryCta}</span>
+            <span data-submit-loading hidden>Sending…</span>
+          </button>
+
+          <p
+            data-form-error
+            hidden
+            class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700 md:col-span-2"
+            role="alert"
+          ></p>
+
+          <p class="text-center text-xs text-slate-500 md:col-span-2">
+            Prefer to talk now? <a class="font-bold text-navy hover:underline" href={brand.phoneHref}>Call {brand.phoneDisplay}</a> or send a quick WhatsApp message.
+          </p>
+        </form>
+
+        <div
+          id="form-success"
+          hidden
+          class="rounded-lg bg-white p-6 text-navy shadow-[0_34px_90px_rgba(2,8,23,0.32)] md:p-10"
+          role="status"
+          aria-live="polite"
+        >
+          <div class="flex size-14 items-center justify-center rounded-full bg-green text-white">
+            <Icon name="check" class="size-7" strokeWidth={2.5} />
+          </div>
+          <h3 class="mt-5 text-2xl font-bold">Thanks — your request was received.</h3>
+          <p class="mt-3 text-base leading-7 text-muted">
+            We have the details you submitted. For a faster conversation, you can continue on WhatsApp with the same information already prepared.
+          </p>
+          <a
+            data-success-whatsapp
+            href={whatsappDefaultUrl}
+            target="_blank"
+            rel="noopener"
+            class="hover-lift mt-6 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-md bg-whatsapp px-6 text-base font-extrabold text-white shadow-[0_18px_38px_rgba(37,211,102,0.32)] transition hover:-translate-y-0.5 hover:bg-whatsapp-dark"
+          >
+            <Icon name="whatsapp" class="size-5" strokeWidth={2} />
+            Continue on WhatsApp
+          </a>
+          <p class="mt-4 text-center text-xs text-slate-500">
+            Or call <a class="font-bold text-navy hover:underline" href={brand.phoneHref}>{brand.phoneDisplay}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline nonce={Astro.locals.cspNonce} define:vars={{ whatsappNumber: brand.whatsappNumber, whatsappFallback: whatsappDefaultUrl }}>
+  (() => {
+    const form = document.getElementById("estimate-form");
+    const success = document.getElementById("form-success");
+    if (!form || !success) return;
+
+    const submitBtn = form.querySelector("[data-submit]");
+    const labelEl = form.querySelector("[data-submit-label]");
+    const loadingEl = form.querySelector("[data-submit-loading]");
+    const errorEl = form.querySelector("[data-form-error]");
+    const waBtn = success.querySelector("[data-success-whatsapp]");
+
+    const setLoading = (loading) => {
+      if (!submitBtn) return;
+      submitBtn.disabled = loading;
+      if (labelEl) labelEl.hidden = loading;
+      if (loadingEl) loadingEl.hidden = !loading;
+    };
+
+    const showError = (msg) => {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.hidden = false;
+    };
+
+    const clearError = () => {
+      if (!errorEl) return;
+      errorEl.textContent = "";
+      errorEl.hidden = true;
+    };
+
+    const buildWhatsappUrl = (data) => {
+      const lines = [
+        "Hi! I'd like a free cleaning estimate.",
+        "",
+        `Name: ${data.name}`,
+        `Phone: ${data.phone}`,
+        `Email: ${data.email}`,
+        `ZIP: ${data.zip}`,
+        `Service: ${data.service}`,
+      ];
+      if (data.message) lines.push(`Notes: ${data.message}`);
+      return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearError();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const fd = new FormData(form);
+      const data = {
+        name: String(fd.get("name") || "").trim(),
+        phone: String(fd.get("phone") || "").trim(),
+        email: String(fd.get("email") || "").trim(),
+        zip: String(fd.get("zip") || "").trim(),
+        service: String(fd.get("service") || "").trim(),
+        message: String(fd.get("message") || "").trim(),
+        consent: fd.get("consent") === "on",
+        website: String(fd.get("website") || ""),
+      };
+
+      setLoading(true);
+
+      let ok = false;
+      try {
+        const res = await fetch("/api/quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        const payload = await res.json().catch(() => ({}));
+        ok = res.ok && payload.ok === true;
+        if (!ok) {
+          showError(payload.error || "Something went wrong. Please try WhatsApp or call us.");
+        }
+      } catch {
+        showError("Network issue. Please try WhatsApp or call us.");
+      } finally {
+        setLoading(false);
+      }
+
+      if (waBtn) waBtn.setAttribute("href", buildWhatsappUrl(data));
+
+      if (!ok) return;
+
+      form.hidden = true;
+      success.hidden = false;
+      success.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    if (waBtn && !waBtn.getAttribute("href")) {
+      waBtn.setAttribute("href", whatsappFallback);
+    }
+  })();
+</script>
