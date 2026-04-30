@@ -1,0 +1,54 @@
+name: ci-diagnostic
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Capture CI diagnostics
+        shell: bash
+        run: |
+          set +e
+          {
+            echo "== runner =="
+            uname -a
+            echo
+            echo "== pwd =="
+            pwd
+            echo
+            echo "== files =="
+            ls -la
+            echo
+            echo "== package manifests =="
+            test -f package.json; echo "package.json exit=$?"
+            test -f package-lock.json; echo "package-lock.json exit=$?"
+            echo
+            echo "== node =="
+            node --version; echo "node exit=$?"
+            echo
+            echo "== npm =="
+            npm --version; echo "npm version exit=$?"
+            npm config get registry; echo "npm registry exit=$?"
+            echo
+            echo "== npm ci =="
+            npm ci
+            echo "npm ci exit=$?"
+          } > ci-diagnostic-output.txt 2>&1
+
+      - name: Commit diagnostic output
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ci-diagnostic-output.txt
+          git commit -m "Add CI diagnostic output" || true
+          git push origin HEAD:${{ github.head_ref }}

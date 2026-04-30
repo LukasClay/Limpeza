@@ -13,7 +13,7 @@
     "format:check": "prettier --check .",
     "fonts:fetch": "node scripts/fetch-fonts.mjs",
     "assets:build": "node scripts/build-static-assets.mjs",
-    "prepare": "simple-git-hooks"
+    "prepare": "node -e \"if (!process.env.CI) import('child_process').then(({execSync}) => execSync('simple-git-hooks', {stdio: 'inherit'}))\""
   },
   "simple-git-hooks": {
     "pre-commit": "npm run check"
